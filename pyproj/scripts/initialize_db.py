@@ -4,6 +4,8 @@ import sys
 from pyramid.paster import bootstrap, setup_logging
 from sqlalchemy.exc import OperationalError
 
+from datetime import datetime
+
 from .. import models
 
 
@@ -12,7 +14,12 @@ def setup_models(dbsession):
     Add or update models / fixtures in the database.
 
     """
-    model = models.mymodel.MyModel(name='one', value=1)
+    #model = models.mymodel.MyModel(name='one', value=1)
+    model = models.TodoItem()
+    model.description = 'First todo item'
+    model.completed = False
+    model.position = 0
+    model.created_date = datetime.now()
     dbsession.add(model)
 
 
