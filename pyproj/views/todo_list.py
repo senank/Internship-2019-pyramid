@@ -12,9 +12,10 @@ log = logging.getLogger(__name__)
 
 @view_config(route_name='todo_list', renderer='../templates/todo_list.mako')
 def todo_list(request):
+    #log.error(repr(dir(request.dbsession)))
     try:
         query = request.dbsession.query(TodoItem)
-        todos = query.order_by(TodoItem.completed.asc(), TodoItem.position.desc()).all()
+        todos = query.order_by(TodoItem.completed.asc(), TodoItem.position.asc()).all()
     except DBAPIError as ex:
         log.exception(ex)
         return Response(db_err_msg, content_type='text/plain', status=500)
