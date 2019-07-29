@@ -7,4 +7,5 @@ def includeme(config):
     config.add_route('todo_item_delete', '/todo/delete')
     config.add_route('todo_item_edit', '/todo/edit/{id}')
     config.add_route('todo_item_drag', '/todo/dnd')
-    
+    config.add_route('login', '/login')
+    config.add_route('logout', '/logout')

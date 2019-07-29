@@ -118,8 +118,8 @@ def todo_item_edit(request):
             completed = request.POST.get('completed')
             if completed is not None:
                 completed = completed.lower()
-                if completed in ('yes', 'no', 'true', 'false', 'on', 'off', '1', '0'):
-                    form_data['completed'] = completed in ('yes', 'on', 'true', '1')
+                if completed in ('yes', 'true', 'on', '1', 'no', 'false', 'off', '0'):
+                    form_data['completed'] = completed in ('yes', 'true', 'on', '1')
                 else:
                     valid = False
                     error['completed'] = 'Completed value is invalid'
@@ -133,7 +133,7 @@ def todo_item_edit(request):
         
         if 'position' in form_data:
             #gets number of todos that have have to be moved
-            shift = item.position - form_data['position']-1
+            shift = item.position - (form_data['position'] - 1)
 
             while shift < 0: #moving up position
                 curr = item.position
@@ -155,8 +155,9 @@ def todo_item_edit(request):
                         shift -= 1
                         request.dbsession.add(x)
 
+
         if 'completed' in form_data:
-            item.completed = completed
+            item.completed = form_data['completed']
             if item.completed:
                 item.completed_date = datetime.now()
             else:
@@ -195,4 +196,7 @@ def todo_item_drag(request):
 
     todos = request.dbsession.query(TodoItem).filter(TodoItem.id.in_(data.keys()))
     for item in todos:
-        if item.id == 
+        if item.id in data:
+            item.position = data[item.id]
+            request.dbsession.add(item)
+    return Response('OK', content_type='text/plain', status=200)

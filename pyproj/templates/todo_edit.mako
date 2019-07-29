@@ -7,7 +7,7 @@
                 ${error}
             % else:
                 ${key}: ${error}
-            % endfor
+            % endif
         </p>
     % endfor
 % endif
@@ -17,7 +17,7 @@
     </div>
     <div>
         <label>Position
-            <select name='position'>
+            <select name='position' id='position'>
                 ##<option disabled selected hidden>${item.position+1}</option>
                 %for x in todos:
                     %if item.id == x.id:
@@ -54,9 +54,8 @@
 
 ##<script>
 ##    jQuery(function($){
-##        $("#editting").submit(function(event){
-##            var description = $('#description').val();
-##            $.post("${request.route_url('todo_item_edit', id=item.id)}", {description: description, submitted: 'yes'}, function(data))
-##        });
-##    });
+##    var opt = $("position option").sort(function (a,b) { return a.value.toUpperCase().localeCompare(b.value.toUpperCase()) });
+##    $("#position").append(opt);
+##    $("#position").find('option:first').attr('selected','selected');
+##});
 ##</script>

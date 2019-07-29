@@ -55,6 +55,3 @@ jQuery(function($){
 </script>
 <script type="text/javascript" src="../static/dragndrop.js"></script>
 </%block>
-
-
-</script>
