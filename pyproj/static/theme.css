@@ -20,6 +20,59 @@ p {
 .font-normal {
   font-weight: 400;
 }
+header {
+  background: #fb90ff;
+}
+
+header::after{
+  content: '';
+  display: table;
+  clear: both;
+}
+
+nav{
+  float: right;
+}
+
+nav ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li{
+  display: inline-block;
+  margin-left: 70px;
+  padding-top: 20px;
+  position: relative;
+}
+
+nav a{
+  color: #2fc237;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+nav a:hover{
+  color: black;
+}
+
+nav a::before{
+  content:'';
+  display: block;
+  height: 5px;
+  width: 0%;
+  background-color: #39ff43;
+  top: 0px;
+  position: absolute;
+
+  transition: all ease-in-out 200ms;
+}
+
+.logo{
+  float: left;
+}
+
 .font-semi-bold {
   font-weight: 600;
 }

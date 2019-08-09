@@ -30,7 +30,27 @@
   </head>
 
   <body>
+  <header>
+    <div class='container'>
+      
+      <h1 class='logo'>NAVBAR</h1>
+      
+      <nav>
+        <ul>
+          <li><a href="${request.route_url('')}">Home</a></li>
+          <li><a href="${request.route_url('')}">Todos</a></li>
+          % if request.authenticated_userid:
+            <li><a href="${request.route_url('')}">login</a></li>
+          %else:
+            <li><a href="${request.route_url('')}">logout</a></li>
+          %endif
+        </ul>
+      </nav>
 
+    </div>
+  </header>
+  
+  <a href="${request.route_url('login')}">LOGIN</a>
     <div class="starter-template">
       <div class="container">
         <div class="row">

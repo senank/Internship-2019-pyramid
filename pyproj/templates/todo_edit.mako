@@ -3,11 +3,11 @@
 % if error:
     % for key, msg in error.items():
         <p class="alert alert-danger">
-            % if key == '_':
-                ${error}
-            % else:
-                ${key}: ${error}
-            % endif
+##            % if key == '_':
+##                ${error}
+##            % else:
+                ${msg}
+##            % endif
         </p>
     % endfor
 % endif
@@ -18,7 +18,6 @@
     <div>
         <label>Position
             <select name='position' id='position'>
-                ##<option disabled selected hidden>${item.position+1}</option>
                 %for x in todos:
                     %if item.id == x.id:
                         <option selected hidden>${x.position+1}</option>

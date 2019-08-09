@@ -1,6 +1,6 @@
 from pyramid.view import view_config
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPForbidden
 import pyramid.events
 
 from datetime import datetime
@@ -13,22 +13,28 @@ from ..models import TodoItem
 import logging
 log = logging.getLogger(__name__)
 
-import colander
-from deform import Form
+# import colander
+# from deform import Form
 
-class TodoForm(colander.MappingSchema):
-    # id_ = colander.SchemaNode(colander.Integer())
-    description = colander.SchemaNode(colander.String())
-    # checked = colander.SchemaNode(colander.Boolean())
+# class TodoForm(colander.MappingSchema):
+#     # id_ = colander.SchemaNode(colander.Integer())
+#     description = colander.SchemaNode(colander.String())
+#     # checked = colander.SchemaNode(colander.Boolean())
 
-sample_data = {
-    '1': dict(id = '1', description = 'ToDoItem-1'),
-    '2': dict(id = '', description = 'ToDoItem-2')
-}
+# sample_data = {
+#     '1': dict(id = '1', description = 'ToDoItem-1'),
+#     '2': dict(id = '', description = 'ToDoItem-2')
+# }
 
 
 @view_config(route_name='todo_item_complete')
 def todo_item_complete(request):
+    
+    user = request.user
+    if user is None or (user.role != 'admin' or page.creator != user):
+        raise HTTPForbidden
+    
+    
     item = None
     try:
         if request.params.get('id') is not None:
@@ -36,6 +42,7 @@ def todo_item_complete(request):
     except DBAPIError as ex:
         log.exception(ex)
         return Response(db_err_msg, content_type='text/plain', status=500)
+
 
     if item:
         completed = request.params.get('checked') == 'true'
@@ -49,8 +56,13 @@ def todo_item_complete(request):
     return Response('OK', content_type='text/plain', status=200)
 
 
-@view_config(route_name='todo_item_add', request_method='POST')
+@view_config(route_name='todo_item_add', request_method='POST', permission='add')
 def todo_item_add(request):
+    
+    user = request.user
+    if user is None or (user.role != 'admin' or page.creator != user):
+        raise HTTPForbidden
+    
     item = TodoItem()
     item.description = request.params.get('description') or ''
     item.completed = False
@@ -59,7 +71,7 @@ def todo_item_add(request):
     request.dbsession.add(item)
     return HTTPFound(location=request.route_url('todo_list'))
 
-@view_config(route_name='todo_item_delete', request_method='POST')
+@view_config(route_name='todo_item_delete', request_method='POST', permission='delete')
 def todo_item_delete(request):
     request.dbsession.query(TodoItem).filter(TodoItem.completed == True).delete()
     return HTTPFound(location=request.route_url('todo_list'))
@@ -70,7 +82,7 @@ def todo_item_delete(request):
             
 
 
-@view_config(route_name='todo_item_edit', renderer='../templates/todo_edit.mako')
+@view_config(route_name='todo_item_edit', renderer='../templates/todo_edit.mako', permission='edit')
 def todo_item_edit(request):
     try:
         id_ = int(request.matchdict['id'])
@@ -89,7 +101,6 @@ def todo_item_edit(request):
     error = {}
 
     if submitted:
-        pos = False
         try:
             description = request.POST.get('description')
             if description is not None:

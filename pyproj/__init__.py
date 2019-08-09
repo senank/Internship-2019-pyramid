@@ -1,4 +1,6 @@
 from pyramid.config import Configurator
+from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
 
 from pyramid.events import subscriber
 from pyramid.events import BeforeRender
@@ -14,5 +16,6 @@ def main(global_config, **settings):
         config.include('.models')
         config.include('pyramid_mako')
         config.include('.routes')
+        config.include('.security')
         config.scan()
     return config.make_wsgi_app()
