@@ -9,9 +9,73 @@ from sqlalchemy.exc import DBAPIError
 
 from ..models import User
 
+@view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='GET')
+def create(request):
+    return {
+        'project': 'To-Do',
+        'page_title': 'Create'
+    }
+
+@view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='POST')
+def create_acc(request):
+    form_data = {}
+    error = {}
+    forbidden = ["{","}", "|", "\'","^", "~", "[", "]", "`"]
+    valid = True
+
+    try:
+        form_username = request.POST.get('username')
+        if form_username:
+            # try:
+            db_username = request.dbsession.query(User).filter(User.username == form_username).first()
+            if db_username is None:
+                form_data['username'] = form_username
+            else:
+                valid = False
+                error['username_taken'] = 'That username has been taken'
+            
+            # except DBAPIError as e:
+                # log.exception(e)
+                # valid = False
+        else:
+            valid = False
+            error['username_invalid'] = 'Please enter a valid username'
+        form_password = request.POST.get('password')
+        if form_password:
+            chars = True
+            for char in forbidden:
+                if char in form_password:
+                    error['password'] = 'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
+                    chars = False
+                    valid = False
+            if chars:
+                form_data['password'] = form_password
+        else:
+            error['password'] = 'Please enter a valid password'
+            valid = False
+    except (ValueError, TypeError, KeyError) as e:
+        valid = False
+    
+    if valid:
+        new_user = User()
+        new_user.username = form_data['username']
+        new_user.password = form_data['password']
+        request.dbsession.add(new_user)
+        return HTTPFound(location=request.route_url('home'))
+    else:
+        return {
+            'project': 'To-Do',
+            'page_title': 'Create',
+            'error': error,
+            }
+    
+
 @view_config(route_name='login', renderer = "../templates/login.mako", request_method='GET')
 def login(request):
-    pass
+    return {
+        'project': 'To-Do',
+        'page_title': 'Login',
+    }
 
 @view_config(route_name='login', renderer = "../templates/login.mako", request_method='POST')
 def login_handler(request):

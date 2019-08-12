@@ -17,7 +17,6 @@
          % if item.completed:
              at ${item.completed_date}
          % endif
-        <!-- <input type="text" value="${item.description}"> -->
         <a href="${request.route_url('todo_item_edit', id=item.id)}">edit</a>
       </li>
    % endfor
