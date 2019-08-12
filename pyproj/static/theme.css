@@ -21,7 +21,7 @@ p {
   font-weight: 400;
 }
 header {
-  background: #fb90ff;
+  background: #5a0101;
 }
 
 header::after{
@@ -43,34 +43,42 @@ nav ul{
 nav li{
   display: inline-block;
   margin-left: 70px;
-  padding-top: 20px;
+  padding-top: 25px;
   position: relative;
 }
 
 nav a{
-  color: #2fc237;
+  color: #ff8800;
   text-decoration: none;
   text-transform: uppercase;
+  font-weight: 700;
 }
 
 nav a:hover{
-  color: black;
+  color: #ff8800;
+  text-decoration: none;
 }
 
-nav a::before{
+nav a::after{
   content:'';
   display: block;
-  height: 5px;
+  height: 2px;
   width: 0%;
-  background-color: #39ff43;
+  background-color: #ff8800;
   top: 0px;
-  position: absolute;
+  position: relative;
 
   transition: all ease-in-out 200ms;
 }
 
+nav a:hover::after{
+  width: 100%;
+}
+
 .logo{
+  position: relative;
   float: left;
+  font-weight: 500;
 }
 
 .font-semi-bold {

@@ -16,3 +16,5 @@
     <input name = 'login_submit' type = "submit" class = "btn btn-danger">
 </form>
 </div>
+
+<a href="${request.route_url('create')}">Create an Account</a>

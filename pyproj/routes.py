@@ -3,6 +3,7 @@ def includeme(config):
     config.add_route('home', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
+    config.add_route('create', '/create')
     config.add_route('todo_list', '/todo')
     config.add_route('todo_item_complete', '/todo/complete')
     config.add_route('todo_item_add', '/todo/new')

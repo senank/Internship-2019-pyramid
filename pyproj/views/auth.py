@@ -9,9 +9,67 @@ from sqlalchemy.exc import DBAPIError
 
 from ..models import User
 
+@view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='GET')
+def create(request):
+    return {
+        'project': 'To-Do',
+        'page_title': 'Create'
+    }
+
+@view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='POST')
+def create_acc(request):
+    form_data = {}
+    error = {}
+    forbidden = ["{","}", "|", "\'","^", "~", "[", "]", "`"]
+    valid = True
+
+    try:
+        username = request.POST.get('username')
+        if username is not None:
+            form_data['username'] = username
+        else:
+            valid = False
+            error['username'] = 'There is no existing user with that username'
+        password = request.POST.get('password')
+        if password is not None:
+            chars = True
+            for char in forbidden:
+                if char in password:
+                    error['password'] = 'Please check password'
+                    chars = False
+                    valid = False
+            if chars:
+                form_data['password'] = password
+        else:
+            error['password'] = 'Please check password'
+    except (ValueError, TypeError, KeyError) as e:
+        valid = False
+    
+    # add return to home page logged in if valid entry
+    # add the user from form_data to database table
+    
+    # check the checks above
+    
+    if valid:
+        new_user = User()
+        new_user.username = form_data['username']
+        new_user.password = form_data['password']
+        request.dbsession.add(new_user)
+        return HTTPFound(location=request.route_url('home'))
+
+
+    return {
+        'project': 'To-Do',
+        'page_title': 'Create'
+    }
+    
+
 @view_config(route_name='login', renderer = "../templates/login.mako", request_method='GET')
 def login(request):
-    pass
+    return {
+        'project': 'To-Do',
+        'page_title': 'Login',
+    }
 
 @view_config(route_name='login', renderer = "../templates/login.mako", request_method='POST')
 def login_handler(request):
