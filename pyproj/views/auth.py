@@ -24,31 +24,37 @@ def create_acc(request):
     valid = True
 
     try:
-        username = request.POST.get('username')
-        if username is not None:
-            form_data['username'] = username
+        form_username = request.POST.get('username')
+        if form_username:
+            # try:
+            db_username = request.dbsession.query(User).filter(User.username == form_username).first()
+            if db_username is None:
+                form_data['username'] = form_username
+            else:
+                valid = False
+                error['username_taken'] = 'That username has been taken'
+            
+            # except DBAPIError as e:
+                # log.exception(e)
+                # valid = False
         else:
             valid = False
-            error['username'] = 'There is no existing user with that username'
-        password = request.POST.get('password')
-        if password is not None:
+            error['username_invalid'] = 'Please enter a valid username'
+        form_password = request.POST.get('password')
+        if form_password:
             chars = True
             for char in forbidden:
-                if char in password:
-                    error['password'] = 'Please check password'
+                if char in form_password:
+                    error['password'] = 'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
                     chars = False
                     valid = False
             if chars:
-                form_data['password'] = password
+                form_data['password'] = form_password
         else:
-            error['password'] = 'Please check password'
+            error['password'] = 'Please enter a valid password'
+            valid = False
     except (ValueError, TypeError, KeyError) as e:
         valid = False
-    
-    # add return to home page logged in if valid entry
-    # add the user from form_data to database table
-    
-    # check the checks above
     
     if valid:
         new_user = User()
@@ -56,12 +62,12 @@ def create_acc(request):
         new_user.password = form_data['password']
         request.dbsession.add(new_user)
         return HTTPFound(location=request.route_url('home'))
-
-
-    return {
-        'project': 'To-Do',
-        'page_title': 'Create'
-    }
+    else:
+        return {
+            'project': 'To-Do',
+            'page_title': 'Create',
+            'error': error,
+            }
     
 
 @view_config(route_name='login', renderer = "../templates/login.mako", request_method='GET')

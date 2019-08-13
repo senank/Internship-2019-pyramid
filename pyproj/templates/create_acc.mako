@@ -6,6 +6,7 @@
     <input type = "text" name = "password" placeholder = "Please insert a password">
     <input name = 'login_submit' type = "submit" class = "btn btn-danger">
 </form>
+<a href = "${request.route_url('login')}">Already have an account?</a>
 %if error:
     %for key, msg in error.items():
         <p class="alert alert-danger">
