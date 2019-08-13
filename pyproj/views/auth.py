@@ -1,7 +1,6 @@
 from pyramid.view import view_config
 from pyramid.response import Response
-from pyramid.authentication import AuthTktAuthenticationPolicy
-from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.security import remember, forget
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPForbidden
 
 from sqlalchemy import func
@@ -79,45 +78,31 @@ def login(request):
 
 @view_config(route_name='login', renderer = "../templates/login.mako", request_method='POST')
 def login_handler(request):
-    submitted = request.POST.get('login_submit')
     valid = True
-    form_data = {}
     error = {}
-    forbidden = ["{","}", "|", "\'","^", "~", "[", "]", "`"]
-    if submitted:
-        try:
-            username = request.POST.get('username')
-            if username is not None:
-                form_data['username'] = username
-            else:
-                valid = False
-                error['username'] = 'There is no existing user with that username'
-            password = request.POST.get('password')
-            if password is not None:
-                chars = True
-                for char in forbidden:
-                    if char in password:
-                        error['password'] = 'Please check password'
-                        chars = False
-                        valid = False
-                if chars:
-                    form_data['password'] = password
-            else:
-                error['password'] = 'Please check password'
-        except (ValueError, TypeError, KeyError) as e:
-            valid = False
-
-    if submitted and valid and form_data:
-        headers = remember(request, form_data['username'])
+    form_username = request.POST.get('username')
+    form_password = request.POST.get('password')
     
-    if submitted:
-        error['_'] = 'Please check your data'
+    db_user = request.dbsession.query(User).filter_by(username = form_username).first()
 
-    return {
-        'error': error,
-        'page_title': 'Login',
-        'project': 'To-Do',
-    }
+    if db_user:
+        if (db_user.username == form_username) and (db_user.password == form_password):
+            header = remember(request, form_username)
+            return HTTPFound(location=request.route_url('home'))
+        elif (db_user.username == form_username):
+            error['incorrect'] = 'Check username or password'
+            return {
+            'error': error,
+            'page_title': 'Login',
+            'project': 'To-Do',
+            }
+    else:
+        error['_'] = 'Please try again'
+        return {
+            'error': error,
+            'page_title': 'Login',
+            'project': 'To-Do',
+        }
 
 @view_config(route_name='logout')
 def logout(request):
