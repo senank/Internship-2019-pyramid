@@ -60,7 +60,9 @@ def create_acc(request):
         new_user.username = form_data['username']
         new_user.password = form_data['password']
         request.dbsession.add(new_user)
-        return HTTPFound(location=request.route_url('home'))
+        request.dbsession.flush()
+        headers = remember(request, new_user.user_id)
+        return HTTPFound(location=request.route_url('home'), headers=headers)
     else:
         return {
             'project': 'To-Do',
@@ -84,27 +86,19 @@ def login_handler(request):
     form_password = request.POST.get('password')
     
     db_user = request.dbsession.query(User).filter_by(username = form_username).first()
-
-    if db_user:
-        if (db_user.username == form_username) and (db_user.password == form_password):
-            header = remember(request, form_username)
-            return HTTPFound(location=request.route_url('home'))
-        elif (db_user.username == form_username):
-            error['incorrect'] = 'Check username or password'
-            return {
+    if db_user and db_user.password == form_password:
+        id_ = db_user.user_id
+        headers = remember(request, id_)
+        return HTTPFound(location=request.route_url('home'), headers=headers)
+ 
+    error['incorrect'] = 'Check username or password'
+    return {
             'error': error,
             'page_title': 'Login',
             'project': 'To-Do',
             }
-    else:
-        error['_'] = 'Please try again'
-        return {
-            'error': error,
-            'page_title': 'Login',
-            'project': 'To-Do',
-        }
 
 @view_config(route_name='logout')
 def logout(request):
     headers = forget(request)
-    return Response('Logged out', headers=headers)
+    return HTTPFound(request.route_url('home'), headers=headers)

@@ -39,8 +39,8 @@
         <ul>
           <li><a href="${request.route_url('home')}">Home</a></li>
           <li><a href="${request.route_url('todo_list')}">Todos</a></li>
-          % if request.authenticated_userid:
-            Hello, ${request.authenticated_userid}
+          % if request.authenticated_userid is not None:
+            <li>Hello, ${request.user.username}</li>
             <li><a href="${request.route_url('logout')}">logout</a></li>
           %else:
             <li><a href="${request.route_url('login')}">login</a></li>

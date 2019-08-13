@@ -45,6 +45,10 @@ nav li{
   margin-left: 70px;
   padding-top: 25px;
   position: relative;
+  color: #ff8800;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 nav a{
