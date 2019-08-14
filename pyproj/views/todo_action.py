@@ -27,13 +27,8 @@ log = logging.getLogger(__name__)
 # }
 
 
-@view_config(route_name='todo_item_complete')
+@view_config(route_name='todo_item_complete', permission = 'complete')
 def todo_item_complete(request):
-    
-    user = request.user
-    if user is None or (user.role != 'admin' or page.creator != user):
-        raise HTTPForbidden
-    
     
     item = None
     try:
@@ -58,10 +53,6 @@ def todo_item_complete(request):
 
 @view_config(route_name='todo_item_add', request_method='POST', permission='add')
 def todo_item_add(request):
-    
-    user = request.user
-    if user is None or (user.role != 'admin' or page.creator != user):
-        raise HTTPForbidden
     
     item = TodoItem()
     item.description = request.params.get('description') or ''
@@ -190,7 +181,7 @@ def todo_item_edit(request):
 
 db_err_msg = 'Unable to process data'
 
-@view_config(route_name = 'todo_item_drag')
+@view_config(route_name = 'todo_item_drag', permission = 'dnd')
 def todo_item_drag(request):
     data = {}
     for key, value in request.POST.items():

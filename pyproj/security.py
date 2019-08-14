@@ -17,7 +17,7 @@ def get_user(request):
         return user
 
 def groupfinder(userid, request):
-    user = get_user()
+    user = get_user(request)
     permissions = []
     if user is not None:
         for permission in user.permissions.split(','):

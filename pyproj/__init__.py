@@ -12,7 +12,7 @@ def add_global(event):
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
-    with Configurator(settings=settings) as config:
+    with Configurator(settings=settings, root_factory='.resources.Root') as config:
         config.include('.models')
         config.include('pyramid_mako')
         config.include('.routes')
