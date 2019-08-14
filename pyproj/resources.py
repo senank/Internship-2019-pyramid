@@ -5,7 +5,9 @@ class Root(object):
                (Allow, 'admin', 'add'),
                (Allow, 'admin', 'complete'),
                (Allow, 'admin', 'dnd'),
-               (Allow, 'admin', 'user')]
+               (Allow, 'admin', 'delete'),
+               (Allow, 'admin', 'logged'),
+               (Allow, 'admin', 'view')]
                
 
     def __init__(self, request):
