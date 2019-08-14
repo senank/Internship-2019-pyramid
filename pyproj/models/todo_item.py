@@ -16,7 +16,7 @@ class TodoItem(Base):
     user_id = Column(Integer, nullable=False)
     description = Column(Text, nullable=False)
     completed = Column(Boolean, nullable=False, default=False, server_default=u'false', index=True)
-    position = Column(Integer, nullable=False, default=0, server_default=u'0', index=True)
+    position = Column(Integer, nullable=False, index=True)
     completed_date = Column(DateTime)
     created_date = Column(DateTime, nullable=False)
 

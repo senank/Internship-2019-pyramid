@@ -54,10 +54,16 @@ def todo_item_complete(request):
 @view_config(route_name='todo_item_add', request_method='POST', permission='add')
 def todo_item_add(request):
     
+    todos = request.dbsession.query(TodoItem).filter_by(user_id = request.user.user_id)
+    
+    count = 0
+    for item in todos:
+        count += 1
+
     item = TodoItem()
     item.description = request.params.get('description') or ''
     item.completed = False
-    item.position = request.dbsession.query(func.max(TodoItem.position) + 1).filter(TodoItem.completed.is_(False)).scalar() or 0
+    item.position = count
     item.created_date = datetime.now()
     item.user_id = request.user.user_id
     request.dbsession.add(item)
@@ -85,7 +91,7 @@ def todo_item_edit(request):
     if item is None:
         raise HTTPNotFound
     
-    todos = request.dbsession.query(TodoItem)
+    todos = request.dbsession.query(TodoItem).filter_by(user_id = request.user.user_id)
 
     submitted = request.POST.get('submitted')
     valid = True

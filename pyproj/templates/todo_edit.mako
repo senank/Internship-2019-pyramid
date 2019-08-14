@@ -18,36 +18,37 @@
     <div>
         <label>Position
             <select name='position' id='position'>
-                %for x in todos:
+                %for x in todos:    
                     %if item.id == x.id:
                         <option selected hidden>${x.position+1}</option>
                     %endif
-                    <option>${x.id}</option>
                 %endfor
+                <% 
+                count = 0
+                for x in todos:
+                    count += 1
+                %>
+                %for x in range(count):
+                    <option>${x+1}</option>
+                %endfor
+                
             </select>
         </label>
         <label>Completed
             <select name='completed'>
-                <option value="yes"
-                    % if item.completed:
-                    selected
-                    % endif
-                >Yes<option>
-                <option value="no"
-                    % if not item.completed:
-                    selected
-                    % endif
-                >No<option>
+                % if item.completed:        
+                    <option value="yes" selected>Yes</option>
+                    <option value="no">No<option>
+                % elif not item.completed:
+                    <option value="yes">Yes</option>
+                    <option value="no" selected>No<option>
+                %endif
             </select>
-            ##<input type='checkbox' name='completed'
-            ##    % if item.completed:
-            ##        checked
-            ##    % endif
-            ##>
         </label>
     </div>
-   
-    <input type='submit' class='btn btn-default' name='submitted' value='yes'>
+    <div>
+        <input type='submit' class='btn btn-default' name='submitted' value='yes'>
+    </div>
 </form>
 <a href="${request.route_url('todo_list')}">Home</a>
 
