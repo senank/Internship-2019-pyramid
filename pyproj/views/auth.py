@@ -28,17 +28,12 @@ def create_acc(request):
     try:
         form_username = request.POST.get('username')
         if form_username:
-            # try:
             db_username = request.dbsession.query(User).filter(User.username == form_username).first()
             if db_username is None:
                 form_data['username'] = form_username
             else:
                 valid = False
                 error['username_taken'] = 'That username has been taken'
-            
-            # except DBAPIError as e:
-                # log.exception(e)
-                # valid = False
         else:
             valid = False
             error['username_invalid'] = 'Please enter a valid username'
@@ -82,7 +77,7 @@ def create_acc(request):
 def edit(request):
     return {
         'project': 'To-Do',
-        'page_title': 'Create'
+        'page_title': 'Edit'
     }
 
 
@@ -134,6 +129,8 @@ def edit_handler(request):
         return HTTPFound(location=request.route_url('home'))
 
     return {
+        'project': 'To-Do',
+        'page_title': 'Edit',
         'error': error,
     }
 
