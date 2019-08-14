@@ -6,6 +6,8 @@ from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPForbidden
 from sqlalchemy import func
 from sqlalchemy.exc import DBAPIError
 
+from ..security import check_password, hash_password
+
 from ..models import User
 
 @view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='GET')
@@ -58,7 +60,10 @@ def create_acc(request):
     if valid:
         new_user = User()
         new_user.username = form_data['username']
-        new_user.password = form_data['password']
+
+        password_hashed = hash_password(form_data['password'])
+        new_user.password = password_hashed
+
         request.dbsession.add(new_user)
         request.dbsession.flush()
         headers = remember(request, new_user.user_id)
@@ -82,11 +87,13 @@ def login(request):
 def login_handler(request):
     valid = True
     error = {}
+
     form_username = request.POST.get('username')
     form_password = request.POST.get('password')
     
     db_user = request.dbsession.query(User).filter_by(username = form_username).first()
-    if db_user and db_user.password == form_password:
+    
+    if db_user and check_password(form_password, db_user.password):
         id_ = db_user.user_id
         headers = remember(request, id_)
         return HTTPFound(location=request.route_url('home'), headers=headers)
