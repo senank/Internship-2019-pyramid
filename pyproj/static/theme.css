@@ -20,6 +20,71 @@ p {
 .font-normal {
   font-weight: 400;
 }
+header {
+  background: #5a0101;
+}
+
+header::after{
+  content: '';
+  display: table;
+  clear: both;
+}
+
+nav{
+  float: right;
+}
+
+nav ul{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li{
+  display: inline-block;
+  margin-left: 70px;
+  padding-top: 25px;
+  position: relative;
+  color: #ff8800;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+nav a{
+  color: #ff8800;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+nav a:hover{
+  color: #ff8800;
+  text-decoration: none;
+}
+
+nav a::after{
+  content:'';
+  display: block;
+  height: 2px;
+  width: 0%;
+  background-color: #ff8800;
+  top: 0px;
+  position: relative;
+
+  transition: all ease-in-out 200ms;
+}
+
+nav a:hover::after{
+  width: 100%;
+}
+
+.logo{
+  position: relative;
+  float: left;
+  font-weight: 500;
+}
+
 .font-semi-bold {
   font-weight: 600;
 }

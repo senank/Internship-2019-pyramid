@@ -1,6 +1,6 @@
 from pyramid.view import view_config
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPFound, HTTPNotFound
+from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPForbidden
 import pyramid.events
 
 from datetime import datetime
@@ -13,22 +13,23 @@ from ..models import TodoItem
 import logging
 log = logging.getLogger(__name__)
 
-import colander
-from deform import Form
+# import colander
+# from deform import Form
 
-class TodoForm(colander.MappingSchema):
-    # id_ = colander.SchemaNode(colander.Integer())
-    description = colander.SchemaNode(colander.String())
-    # checked = colander.SchemaNode(colander.Boolean())
+# class TodoForm(colander.MappingSchema):
+#     # id_ = colander.SchemaNode(colander.Integer())
+#     description = colander.SchemaNode(colander.String())
+#     # checked = colander.SchemaNode(colander.Boolean())
 
-sample_data = {
-    '1': dict(id = '1', description = 'ToDoItem-1'),
-    '2': dict(id = '', description = 'ToDoItem-2')
-}
+# sample_data = {
+#     '1': dict(id = '1', description = 'ToDoItem-1'),
+#     '2': dict(id = '', description = 'ToDoItem-2')
+# }
 
 
-@view_config(route_name='todo_item_complete')
+@view_config(route_name='todo_item_complete', permission = 'complete')
 def todo_item_complete(request):
+    
     item = None
     try:
         if request.params.get('id') is not None:
@@ -36,6 +37,7 @@ def todo_item_complete(request):
     except DBAPIError as ex:
         log.exception(ex)
         return Response(db_err_msg, content_type='text/plain', status=500)
+
 
     if item:
         completed = request.params.get('checked') == 'true'
@@ -49,8 +51,9 @@ def todo_item_complete(request):
     return Response('OK', content_type='text/plain', status=200)
 
 
-@view_config(route_name='todo_item_add', request_method='POST')
+@view_config(route_name='todo_item_add', request_method='POST', permission='add')
 def todo_item_add(request):
+    
     item = TodoItem()
     item.description = request.params.get('description') or ''
     item.completed = False
@@ -59,7 +62,7 @@ def todo_item_add(request):
     request.dbsession.add(item)
     return HTTPFound(location=request.route_url('todo_list'))
 
-@view_config(route_name='todo_item_delete', request_method='POST')
+@view_config(route_name='todo_item_delete', request_method='POST', permission='delete')
 def todo_item_delete(request):
     request.dbsession.query(TodoItem).filter(TodoItem.completed == True).delete()
     return HTTPFound(location=request.route_url('todo_list'))
@@ -70,7 +73,7 @@ def todo_item_delete(request):
             
 
 
-@view_config(route_name='todo_item_edit', renderer='../templates/todo_edit.mako')
+@view_config(route_name='todo_item_edit', renderer='../templates/todo_edit.mako', permission='edit')
 def todo_item_edit(request):
     try:
         id_ = int(request.matchdict['id'])
@@ -89,7 +92,6 @@ def todo_item_edit(request):
     error = {}
 
     if submitted:
-        pos = False
         try:
             description = request.POST.get('description')
             if description is not None:
@@ -118,8 +120,8 @@ def todo_item_edit(request):
             completed = request.POST.get('completed')
             if completed is not None:
                 completed = completed.lower()
-                if completed in ('yes', 'no', 'true', 'false', 'on', 'off', '1', '0'):
-                    form_data['completed'] = completed in ('yes', 'on', 'true', '1')
+                if completed in ('yes', 'true', 'on', '1', 'no', 'false', 'off', '0'):
+                    form_data['completed'] = completed in ('yes', 'true', 'on', '1')
                 else:
                     valid = False
                     error['completed'] = 'Completed value is invalid'
@@ -133,7 +135,7 @@ def todo_item_edit(request):
         
         if 'position' in form_data:
             #gets number of todos that have have to be moved
-            shift = item.position - form_data['position']-1
+            shift = item.position - (form_data['position'] - 1)
 
             while shift < 0: #moving up position
                 curr = item.position
@@ -155,8 +157,9 @@ def todo_item_edit(request):
                         shift -= 1
                         request.dbsession.add(x)
 
+
         if 'completed' in form_data:
-            item.completed = completed
+            item.completed = form_data['completed']
             if item.completed:
                 item.completed_date = datetime.now()
             else:
@@ -178,7 +181,7 @@ def todo_item_edit(request):
 
 db_err_msg = 'Unable to process data'
 
-@view_config(route_name = 'todo_item_drag')
+@view_config(route_name = 'todo_item_drag', permission = 'dnd')
 def todo_item_drag(request):
     data = {}
     for key, value in request.POST.items():
@@ -195,4 +198,7 @@ def todo_item_drag(request):
 
     todos = request.dbsession.query(TodoItem).filter(TodoItem.id.in_(data.keys()))
     for item in todos:
-        if item.id == 
+        if item.id in data:
+            item.position = data[item.id]
+            request.dbsession.add(item)
+    return Response('OK', content_type='text/plain', status=200)

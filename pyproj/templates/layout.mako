@@ -30,7 +30,28 @@
   </head>
 
   <body>
+  <header>
+    <div class='container'>
+      
+      <h1 class='logo'><font color='ff8800'>MY APP</font></h1>
+      
+      <nav>
+        <ul>
+          <li><a href="${request.route_url('home')}">Home</a></li>
+          <li><a href="${request.route_url('todo_list')}">Todos</a></li>
+          % if request.authenticated_userid is not None:
+            <li>Hello, ${request.user.username}</li>
+            <li><a href="${request.route_url('logout')}">logout</a></li>
+          %else:
+            <li><a href="${request.route_url('login')}">login</a></li>
+            <li><a href="${request.route_url('create')}">Create Account</a></li>
 
+          %endif
+        </ul>
+      </nav>
+
+    </div>
+  </header>
     <div class="starter-template">
       <div class="container">
         <div class="row">
