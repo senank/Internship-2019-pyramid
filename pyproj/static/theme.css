@@ -217,3 +217,7 @@ nav a:hover::after{
     margin-top: 20px;
   }
 }
+
+input::placeholder{
+  text-transform: capitalize;
+}

@@ -34,5 +34,3 @@ Index('todo_item_idx', TodoItem.completed.asc(), TodoItem.position.desc(), uniqu
 #[x] task 10
 #[x] task 11
 #[x] task 20
-
-    # sa.Column('user_id', sa.Integer(), nullable=False),
