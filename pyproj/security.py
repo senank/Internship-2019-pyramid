@@ -20,8 +20,9 @@ def groupfinder(userid, request):
     user = get_user(request)
     permissions = []
     if user is not None:
-        for permission in user.permissions.split(','):
-            permissions.append(permission)
+        if user.permissions is not None:
+            for permission in user.permissions.split(','):
+                permissions.append(permission)
     return permissions
 
 def hash_password(pw):
