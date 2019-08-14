@@ -59,6 +59,7 @@ def todo_item_add(request):
     item.completed = False
     item.position = request.dbsession.query(func.max(TodoItem.position) + 1).filter(TodoItem.completed.is_(False)).scalar() or 0
     item.created_date = datetime.now()
+    item.user_id = request.user.user_id
     request.dbsession.add(item)
     return HTTPFound(location=request.route_url('todo_list'))
 

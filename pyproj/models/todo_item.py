@@ -13,8 +13,8 @@ from .meta import Base
 class TodoItem(Base):
     __tablename__ = 'todo_item'
     id = Column(Integer, primary_key=True)
-    #user_id = Column(Integer)
-    description = Column(Text)
+    user_id = Column(Integer, nullable=False)
+    description = Column(Text, nullable=False)
     completed = Column(Boolean, nullable=False, default=False, server_default=u'false', index=True)
     position = Column(Integer, nullable=False, default=0, server_default=u'0', index=True)
     completed_date = Column(DateTime)
@@ -34,3 +34,5 @@ Index('todo_item_idx', TodoItem.completed.asc(), TodoItem.position.desc(), uniqu
 #[x] task 10
 #[x] task 11
 #[x] task 20
+
+    # sa.Column('user_id', sa.Integer(), nullable=False),
