@@ -39,13 +39,14 @@ def create_acc(request):
             valid = False
             error['username_invalid'] = 'Please enter a valid username'
         form_password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm')
+        confirm_password = request.POST.get('confirm_password')
         if form_password:
             if form_password == confirm_password:
                 chars = True
                 for char in forbidden:
                     if char in form_password:
-                        error['password'] = 'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
+                        error['password'] = \
+                            'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
                         chars = False
                         valid = False
                 if chars:
@@ -83,7 +84,8 @@ def create_acc(request):
             'error': error,
             }
 
-@view_config(route_name='edit_user', renderer = "../templates/edit_user.mako", request_method='GET', permission = 'logged')
+@view_config(route_name='edit_user', renderer = "../templates/edit_user.mako",\
+     request_method='GET', permission = 'logged')
 def edit(request):
     return {
         'project': 'To-Do',
@@ -122,7 +124,8 @@ def edit_handler(request):
                 chars = True    
                 for char in forbidden:
                     if char in form_password:
-                        error['password'] = 'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
+                        error['password'] = \
+                             'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
                         chars = False
                         valid = False
                 if chars:

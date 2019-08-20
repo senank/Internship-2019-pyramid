@@ -10,16 +10,37 @@
         %endfor
     %endif
     <div class="form-group">
-        <form action = "${request.route_url('edit_user')}" method = "POST" onsubmit = "return confirm('Are you sure you want to update?')">
-            <input type="text" name = "username" placeholder="new username">
-            <input type = "text" name = "password" placeholder = "new password">
-            <input name = 'login_submit' type = "submit" class = "btn btn-default">
-        </form>
-
-        <form action="${request.route_url('delete_user')}" method='POST' class="inline-block">
-            <input name="Delete" type="submit" class="btn btn-danger" value="Delete" onclick = "return confirm('THIS WILL DELETE YOUR ACCOUNT ARE YOU SURE YOU WANT TO CONTINUE?')">
+        <form action = "${request.route_url('edit_user')}" method = "POST" class = "inline-block" \
+        onsubmit = "return confirm('Are you sure you want to update?\n\nIf field is left empty, there will be no changes made to that field')">
+            <div>
+                <label>Username:
+                    <input type="text" class='form-control' name = "username" placeholder="${request.user.username.capitalize()}">
+                </label>
+            </div>
+            
+            <div class='form-group'>
+                <label>Password:
+                    <input type = "text" class='form-control' name = "password" placeholder = "password">
+                </label>
+                <label>Confirm:
+                    <input type = "text" class='form-control' name = "confirm_password" placeholder = "confirm">
+                </label>
+            </div>
+            <div>
+                <div class='form-group'>
+                    <input type="hidden" name="csrf_token" value="${get_csrf_token()}">
+                    ## <div style="float:left">
+                    <input name = 'login_submit' type = "submit" class = "btn btn-primary">
+                    ## </div>
+                    ## <div style='float:right'>
+                    <input name="Delete" id='delete' formaction = "${request.route_url('delete_user')}" type="submit" class="btn btn-danger" \
+                    value="Delete ${request.user.username.capitalize()}" onclick = "return confirm('THIS WILL DELETE YOUR ACCOUNT ARE YOU SURE YOU WANT TO CONTINUE?');">
+                    ## </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>
-
-<a href="${request.route_url('home')}">Cancel</a>
+<div style='float:left; clear:left;'>
+    <a href="${request.route_url('home')}">Cancel</a></br>
+</div>

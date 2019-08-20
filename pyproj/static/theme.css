@@ -221,3 +221,22 @@ nav a:hover::after{
 input::placeholder{
   text-transform: capitalize;
 }
+/* label{
+  display: inline-block;
+  clear: left;
+  width: 250px;
+  text-align: left;
+} */
+input {
+  display: inline-block;
+}
+/* 
+#delete{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+} */
+
+/* #delete{
+  display: inline;
+} */

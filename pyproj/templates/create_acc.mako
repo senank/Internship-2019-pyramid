@@ -2,9 +2,24 @@
 
 <h1>Create an Account! :)</h1>
 <form action = "${request.route_url('create')}" method = "POST">
-    <input type="text" name = "username" placeholder="Please insert a username">
-    <input type = "text" name = "password" placeholder = "Please insert a password">
-    <input name = 'login_submit' type = "submit" class = "btn btn-danger">
+    <div class = 'form-group'>
+        <div>
+            <label>Username:
+                <input type="text" class = 'form-control' name = "username" placeholder = 'username' required>
+            </label>
+        </div>
+        <div>
+            <label>Password:
+                <input type = "password" class = 'form-control' name = "password" placeholder = 'Password'required>
+            </label>
+            <label>Confirm:
+                <input type = 'password' class = 'form-control' name = 'confirm' placeholder = 'Confirm' required>
+            </label>
+        </div>
+    </div>
+    <div class='form-group'>
+        <input name = 'login_submit' type = "submit" class = "btn btn-primary" value='Create'>
+    </div>
 </form>
 <a href = "${request.route_url('login')}">Already have an account?</a>
 %if error:

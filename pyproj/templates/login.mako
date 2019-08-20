@@ -11,10 +11,19 @@
 %endif
 
 <form action = "${request.route_url('login')}" method = "POST">
-    <input type="text" name = "username" placeholder="username">
-    <input type = "text" name = "password" placeholder = "password">
-    <input name = 'login_submit' type = "submit" class = "btn btn-danger">
+    <div class = 'form-row'>
+        <div class = 'col' >
+            <label>Username:<input type="text" class = 'form-control' name = "username" placeholder="username"></label>
+        </div>
+        <div class = 'col' >
+            <label>Password:<input type = "password" class = 'form-control' name = "password" placeholder = "password"></label>
+        </div>
+    </div> 
+    <div class = 'form-group' >  
+        <input name = 'login_submit' type = "submit" class = "btn btn-primary" value='Sign In'>
+    </div>   
 </form>
 </div>
-
-<a href="${request.route_url('create')}">Create an Account</a>
+<div>
+    <a href="${request.route_url('create')}">Create an Account</a>
+</div>

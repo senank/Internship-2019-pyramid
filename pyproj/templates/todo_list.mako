@@ -46,10 +46,10 @@
 
 <%block name="page_script">
 <script>
-
+var csrfToken = "${get_csrf_token()}";
 jQuery(function($){
     $(document).on('change', 'input[name^="todo-"]', function(){
-        $.post("${request.route_url('todo_item_complete')}", {id: $(this).data('id'), checked: $(this).is(':checked')});
+        $.post("${request.route_url('todo_item_complete')}", {id: $(this).data('id'), checked: $(this).is(':checked'), 'csrf_token' : csrfToken});
     });
 });
 
