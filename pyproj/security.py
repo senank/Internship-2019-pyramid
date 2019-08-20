@@ -1,5 +1,6 @@
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.session import SignedCookieSessionFactory
 
 from .models import User
 import bcrypt
@@ -33,7 +34,7 @@ def check_password(pw, hashed_pw):
     expected_hash = hashed_pw.encode('utf8')
     return bcrypt.checkpw(pw.encode('utf8'), expected_hash)
 
-
+my_session_factory = SignedCookieSessionFactory('itsaseekreet')
 
 def includeme(config):
     settings = config.get_settings()
@@ -45,3 +46,4 @@ def includeme(config):
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
     config.add_request_method(get_user, 'user', reify=True)
+    config.set_session_factory(my_session_factory)

@@ -17,5 +17,6 @@ def main(global_config, **settings):
         config.include('pyramid_mako')
         config.include('.routes')
         config.include('.security')
+        config.set_default_csrf_options(require_csrf=True)
         config.scan()
     return config.make_wsgi_app()

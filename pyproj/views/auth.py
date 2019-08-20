@@ -2,6 +2,7 @@ from pyramid.view import view_config
 from pyramid.response import Response
 from pyramid.security import remember, forget
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPForbidden
+from pyramid.csrf import new_csrf_token
 
 from sqlalchemy import func
 from sqlalchemy.exc import DBAPIError
@@ -11,14 +12,14 @@ from ..security import check_password, hash_password
 from ..models import User
 from ..models import TodoItem
 
-@view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='GET')
+@view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='GET', require_csrf=False)
 def create(request):
     return {
         'project': 'To-Do',
         'page_title': 'Create'
     }
 
-@view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='POST')
+@view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='POST', require_csrf=False)
 def create_acc(request):
     form_data = {}
     error = {}
@@ -38,15 +39,23 @@ def create_acc(request):
             valid = False
             error['username_invalid'] = 'Please enter a valid username'
         form_password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm')
         if form_password:
-            chars = True
-            for char in forbidden:
-                if char in form_password:
-                    error['password'] = 'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
-                    chars = False
-                    valid = False
-            if chars:
-                form_data['password'] = form_password
+            if form_password == confirm_password:
+                chars = True
+                for char in forbidden:
+                    if char in form_password:
+                        error['password'] = 'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
+                        chars = False
+                        valid = False
+                if chars:
+                    form_data['password'] = form_password
+            elif form_password != confirm_password:
+                error['nomatch'] = 'Password did not match'
+                valid = False
+        elif confirm_password:
+            error['nopassword'] = 'Please enter a password'
+            valid = False
         else:
             error['password'] = 'Password cannot be empty'
             valid = False
@@ -65,6 +74,7 @@ def create_acc(request):
         request.dbsession.add(new_user)
         request.dbsession.flush()
         headers = remember(request, new_user.user_id)
+        new_csrf_token(request)
         return HTTPFound(location=request.route_url('home'), headers=headers)
     else:
         return {
@@ -105,16 +115,25 @@ def edit_handler(request):
             form_data['username'] = user.username
 
         form_password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm')
+
         if form_password:
-            chars = True
-            for char in forbidden:
-                if char in form_password:
-                    error['password'] = 'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
-                    chars = False
-                    valid = False
-            if chars:
-                password = hash_password(form_password)
-                form_data['password'] = password
+            if (form_password == confirm_password):
+                chars = True    
+                for char in forbidden:
+                    if char in form_password:
+                        error['password'] = 'Please avoid the following:   {  ,  }  ,  |  ,  \'  ,  ^  ,  ~  ,  [ , ] , ` '
+                        chars = False
+                        valid = False
+                if chars:
+                    password = hash_password(form_password)
+                    form_data['password'] = password
+            elif (form_password != confirm_password):
+                error['nomatch'] = 'Password did not match'
+                valid = False
+        elif confirm_password is not None:
+            error['nopassword'] = 'Please enter a password'
+            valid = False
         else:
             form_data['password'] = user.password
             
@@ -135,14 +154,14 @@ def edit_handler(request):
     }
 
 
-@view_config(route_name='login', renderer = "../templates/login.mako", request_method='GET')
+@view_config(route_name='login', renderer = "../templates/login.mako", request_method='GET', require_csrf=False)
 def login(request):
     return {
         'project': 'To-Do',
         'page_title': 'Login',
     }
 
-@view_config(route_name='login', renderer = "../templates/login.mako", request_method='POST')
+@view_config(route_name='login', renderer = "../templates/login.mako", request_method='POST', require_csrf=False)
 def login_handler(request):
     valid = True
     error = {}
@@ -155,6 +174,7 @@ def login_handler(request):
     if db_user and check_password(form_password, db_user.password):
         id_ = db_user.user_id
         headers = remember(request, id_)
+        new_csrf_token(request)
         return HTTPFound(location=request.route_url('home'), headers=headers)
  
     error['incorrect'] = 'Check username or password'
@@ -164,7 +184,7 @@ def login_handler(request):
             'project': 'To-Do',
             }
 
-@view_config(route_name='logout')
+@view_config(route_name='logout', require_csrf=False)
 def logout(request):
     headers = forget(request)
     return HTTPFound(request.route_url('home'), headers=headers)

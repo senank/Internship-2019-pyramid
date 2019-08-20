@@ -12,12 +12,12 @@
     % endfor
 % endif
 <form action="${request.route_url('todo_item_edit', id=item.id)}" name="editting" id="editting" method="POST">
-    <div>
-        <input id="description" type='text' name="description" value="${item.description}">
+    <div class = "form-group">
+        <input id="description" class = "form-control" type='text' name="description" value="${item.description}">
     </div>
-    <div>
+    <div class = "form-group">
         <label>Position
-            <select name='position' id='position'>
+            <select name='position' class="custom-select custom-select-lg">
                 %for x in todos:    
                     %if item.id == x.id:
                         <option selected hidden>${x.position+1}</option>
@@ -47,6 +47,7 @@
         </label>
     </div>
     <div>
+        <input type="hidden" name="csrf_token" value="${get_csrf_token()}">
         <input type='submit' class='btn btn-default' name='submitted' value='yes'>
     </div>
 </form>

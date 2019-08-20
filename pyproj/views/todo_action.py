@@ -1,6 +1,7 @@
 from pyramid.view import view_config
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound, HTTPNotFound, HTTPForbidden
+from pyramid.csrf import get_csrf_token
 import pyramid.events
 
 from datetime import datetime
@@ -71,7 +72,7 @@ def todo_item_add(request):
 
 @view_config(route_name='todo_item_delete', request_method='POST', permission='delete')
 def todo_item_delete(request):
-    request.dbsession.query(TodoItem).filter(TodoItem.completed == True).delete()
+    request.dbsession.query(TodoItem).filter_by(user_id = request.user.user_id).filter(TodoItem.completed == True).delete()
     return HTTPFound(location=request.route_url('todo_list'))
     # completed_list = request.dbsession.query(TodoItem).filter(TodoItem.completed == True)
     # for item in completed_list:
@@ -87,9 +88,9 @@ def todo_item_edit(request):
     except (ValueError, TypeError):
         raise HTTPNotFound
 
-    item = request.dbsession.query(TodoItem).filter(TodoItem.id == id_).first()
+    item = request.dbsession.query(TodoItem).filter_by(user_id = request.user.user_id).filter(TodoItem.id == id_).first()
     if item is None:
-        raise HTTPNotFound
+        raise HTTPForbidden
     
     todos = request.dbsession.query(TodoItem).filter_by(user_id = request.user.user_id)
 
@@ -188,7 +189,7 @@ def todo_item_edit(request):
 
 db_err_msg = 'Unable to process data'
 
-@view_config(route_name = 'todo_item_drag', permission = 'dnd')
+@view_config(route_name = 'todo_item_drag', permission = 'dnd', require_csrf = False)
 def todo_item_drag(request):
     data = {}
     for key, value in request.POST.items():
