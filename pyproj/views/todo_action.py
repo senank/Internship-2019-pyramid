@@ -14,18 +14,9 @@ from ..models import TodoItem
 import logging
 log = logging.getLogger(__name__)
 
-# import colander
-# from deform import Form
+import colander as c
+from deform import Form
 
-# class TodoForm(colander.MappingSchema):
-#     # id_ = colander.SchemaNode(colander.Integer())
-#     description = colander.SchemaNode(colander.String())
-#     # checked = colander.SchemaNode(colander.Boolean())
-
-# sample_data = {
-#     '1': dict(id = '1', description = 'ToDoItem-1'),
-#     '2': dict(id = '', description = 'ToDoItem-2')
-# }
 
 
 @view_config(route_name='todo_item_complete', permission = 'complete')
@@ -68,20 +59,13 @@ def todo_item_add(request):
     item.created_date = datetime.now()
     item.user_id = request.user.user_id
     request.dbsession.add(item)
-    return HTTPFound(location=request.route_url('todo_list'))
-
+    
 @view_config(route_name='todo_item_delete', request_method='POST', permission='delete')
 def todo_item_delete(request):
     
     request.dbsession.query(TodoItem).filter_by(user_id = \
         request.user.user_id).filter(TodoItem.completed == True).delete()
 
-    return HTTPFound(location=request.route_url('todo_list'))
-    # completed_list = request.dbsession.query(TodoItem).filter(TodoItem.completed == True)
-    # for item in completed_list:
-    #    item.completed = False
-       #request.dbsession.delete(item)
-            
 
 
 @view_config(route_name='todo_item_edit', renderer='../templates/todo_edit.mako', permission='edit')

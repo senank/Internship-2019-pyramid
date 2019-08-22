@@ -26,18 +26,18 @@
 </div>
 
 
-<form action="${request.route_url('todo_item_add')}" method="POST" class="inline-block">
-    <div class="form-group">
-       <input name="description" type="text" class="form-control" placeholder = 'New item'>
-    </div>
+## <form action="${request.route_url('todo_item_add')}" method="POST" class="inline-block">
+##     <div class="form-group">
+##        <input name="description" type="text" class="form-control" placeholder = 'New item'>
+##     </div>
 
-    <div class="form-group">
-        <input type="hidden" name="csrf_token" value="${get_csrf_token()}">
-        <input name="Add" type="submit" class="btn btn-primary">
-        <input name="Delete" formaction = "${request.route_url('todo_item_delete')}" type="submit" class="btn btn-danger" value="Clear" onclick ="return confirm('This will delete all finished items')">
-    </div>
-</form>
-
+##     <div class="form-group">
+##         <input type="hidden" name="csrf_token" value="${get_csrf_token()}">
+##         <input name="Add" type="submit" class="btn btn-primary">
+##         <input name="Delete" formaction = "${request.route_url('todo_item_delete')}" type="submit" class="btn btn-danger" value="Clear" onclick ="return confirm('This will delete all finished items')">
+##     </div>
+## </form>
+${form | n}
 ## <form action="${request.route_url('todo_item_delete')}" method='POST' class="inline-block">
 ##     <div class="form-group">
 ##         <input name="Delete" type="submit" class="btn btn-danger" value="Delete">

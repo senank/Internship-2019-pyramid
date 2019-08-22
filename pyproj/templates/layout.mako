@@ -7,6 +7,10 @@
     <meta name="description" content="pyramid web application">
     <meta name="author" content="Pylons Project">
     <link rel="shortcut icon" href="${request.static_url('pyproj:static/pyramid-16x16.png')}">
+    
+    <link rel="stylesheet" href="/static/css/form.css" type="text/css" />
+    <script type="text/javascript" src="/static/scripts/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/static/scripts/deform.js"></script>
 
     <title>
         % if page_title:
