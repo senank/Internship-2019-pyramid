@@ -62,7 +62,7 @@ def create_acc(request):
             valid = False
     except (ValueError, TypeError, KeyError) as e:
         valid = False
-    
+
     if valid:
         new_user = User()
         new_user.username = form_data['username'].lower()
@@ -117,7 +117,7 @@ def edit_handler(request):
             form_data['username'] = user.username
 
         form_password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm')
+        confirm_password = request.POST.get('confirm_password')
 
         if form_password:
             if (form_password == confirm_password):

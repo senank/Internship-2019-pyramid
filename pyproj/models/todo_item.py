@@ -9,6 +9,28 @@ from sqlalchemy import (
 
 from .meta import Base
 
+MIMETYPE_ICONS = {
+    'image' : 'far fa-image',
+    'audio' : 'far fa-file-audio',
+    'video' : 'far fa-file-video',
+    'application/pdf' : 'far fa-file-pdf',
+    'application/msword' : 'far fa-file-word',
+    'application/vnd.ms-word' : 'far fa-file-word',
+    'application/vnd.oasis.opendocument.text' : 'far fa-file-word',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml' : 'far fa-file-word',
+    'application/vnd.ms-excel' : 'far fa-file-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml' : 'far fa-file-excel',
+    'application/vnd.oasis.opendocument.spreadsheet' : 'far fa-file-excel',
+    'application/vnd.ms-powerpoint' : 'far fa-file-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml' : 'far fa-file-powerpoint',
+    'application/vnd.oasis.opendocument.presentation' : 'far fa-file-powerpoint',
+    'text/plain' : 'far fa-file-alt',
+    'text/html' : 'far fa-file-code',
+    'application/json' : 'far fa-file-code',
+    'application/gzip' : 'far fa-file-archive',
+    'application/zip' : 'far fa-file-archive',
+}
+
 
 class TodoItem(Base):
     __tablename__ = 'todo_item'
@@ -19,6 +41,10 @@ class TodoItem(Base):
     position = Column(Integer, nullable=False, index=True)
     completed_date = Column(DateTime)
     created_date = Column(DateTime, nullable=False)
+
+    def get_icon(self):
+        icon = MIMETYPE_ICONS.get(self.mimetype, 'far fa-file')
+        return icon
 
 
 Index('todo_item_idx', TodoItem.completed.asc(), TodoItem.position.desc(), unique=False)

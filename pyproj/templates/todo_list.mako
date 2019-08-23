@@ -38,11 +38,6 @@
 ##     </div>
 ## </form>
 ${form | n}
-## <form action="${request.route_url('todo_item_delete')}" method='POST' class="inline-block">
-##     <div class="form-group">
-##         <input name="Delete" type="submit" class="btn btn-danger" value="Delete">
-##     </div>
-## </form>
 
 <%block name="page_script">
 <script>

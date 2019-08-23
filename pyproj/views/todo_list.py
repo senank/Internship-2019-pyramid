@@ -54,8 +54,10 @@ def todo_list(request):
    
     # schema = MySchema().bind(request=request)
 
-    schema = colander.SchemaNode(colander.Mapping(), colander.SchemaNode(colander.String(), name = 'csrf_token', default=deferred_csrf_default, widget=deform.widget.HiddenWidget()).bind(request=request))
-    schema.add(colander.SchemaNode(colander.String(),validator = colander.Length(min = 1, max = 24), description = 'Add new item', name = 'description'))
+    schema = colander.SchemaNode(colander.Mapping(), colander.SchemaNode(colander.String(), name = 'csrf_token',\
+        default=deferred_csrf_default, widget=deform.widget.HiddenWidget()).bind(request=request))
+    schema.add(colander.SchemaNode(colander.String(),validator = colander.Length(min = 1, max = 24), \
+        description = 'Add new item', name = 'description'))
 
 
     myform = deform.Form(schema, buttons=('add', 'delete'))

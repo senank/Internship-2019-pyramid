@@ -13,7 +13,7 @@
                 <input type = "password" class = 'form-control' name = "password" placeholder = 'Password'required>
             </label>
             <label>Confirm:
-                <input type = 'password' class = 'form-control' name = 'confirm' placeholder = 'Confirm' required>
+                <input type = 'password' class = 'form-control' name ="confirm_password" placeholder = 'Confirm' required>
             </label>
         </div>
     </div>
