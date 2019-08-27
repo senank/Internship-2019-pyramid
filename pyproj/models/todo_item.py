@@ -10,7 +10,7 @@ from sqlalchemy import (
 from .meta import Base
 
 MIMETYPE_ICONS = {
-    'image' : 'far fa-image',
+    'image/jpeg' : 'far fa-file-image',
     'audio' : 'far fa-file-audio',
     'video' : 'far fa-file-video',
     'application/pdf' : 'far fa-file-pdf',
@@ -39,8 +39,12 @@ class TodoItem(Base):
     description = Column(Text, nullable=False)
     completed = Column(Boolean, nullable=False, default=False, server_default=u'false', index=True)
     position = Column(Integer, nullable=False, index=True)
-    completed_date = Column(DateTime)
     created_date = Column(DateTime, nullable=False)
+    completed_date = Column(DateTime)
+    filename = Column(Text)
+    unique_filename = Column(Text)
+    mimetype = Column(Text)
+    
 
     def get_icon(self):
         icon = MIMETYPE_ICONS.get(self.mimetype, 'far fa-file')

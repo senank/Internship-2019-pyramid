@@ -13,16 +13,17 @@
                 checked
             % endif
          >
+         <% filepath = 'pyproj:static/uploads/' + item.unique_filename %>
+         <a href="${request.static_url(filepath)}"><i class="${item.get_icon()}"></i></a>
+
          ${item.description}
          % if item.completed:
              at ${item.completed_date}
          % endif
-        <a href="${request.route_url('todo_item_edit', id=item.id)}">edit</a>
+         <a href="${request.route_url('todo_item_edit', id=item.id)}">edit</a>
       </li>
    % endfor
    </ul>
-
-
 </div>
 
 

@@ -22,8 +22,7 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-    <!-- Custom styles for this scaffold -->
+    <script src="https://kit.fontawesome.com/0134a2e95e.js"></script>    <!-- Custom styles for this scaffold -->
     <link href="${request.static_url('pyproj:static/theme.css')}" rel="stylesheet">
 
     <!-- HTML5 shiv and Respond.js IE8 support of HTML5 elements and media queries -->

@@ -11,11 +11,17 @@ from sqlalchemy.exc import DBAPIError
 
 from ..models import TodoItem
 
+import uuid
+from deform.interfaces import FileUploadTempStore
+
 import logging
 log = logging.getLogger(__name__)
 
 import colander
 import deform
+
+import os
+import shutil
 
 @colander.deferred
 def deferred_csrf_default(node, kw):
@@ -94,14 +100,15 @@ def todo_item_edit(request):
         count += 1
         position_list += ((count, count,),)
 
-    #for default values
+    #for default values for current item
     current = {
         'description' : item.description,
         'position' : item.position + 1,
-        'completed' : item.completed
+        'completed' : item.completed,
+        'filename': item.filename
     }
     
-    #form with CSRF
+    # form with CSRF
     schema = colander.SchemaNode(colander.Mapping(), 
         colander.SchemaNode(colander.String(), 
         name = 'csrf_token',
@@ -132,14 +139,34 @@ def todo_item_edit(request):
         name = 'completed',
         default = current['completed']))
 
+    #fileupload
+    class MemoryTmpStore(dict):
+        """ Instances of this class implement the
+        :class:`deform.interfaces.FileUploadTempStore` interface"""
+
+        def preview_url(self, uid):
+            return None
+    
+    tmpstore = MemoryTmpStore()        
+    schema.add(colander.SchemaNode(
+        deform.FileData(),
+        widget = deform.widget.FileUploadWidget(tmpstore),
+        name = 'upload',
+        missing = None
+        ))
+    
+    # schema.add(Image())
+    # schema = Image()
+
     myform = deform.Form(schema, buttons = ('submit', 'cancel',))
     form = myform.render()
 
     if 'submit' in request.POST:
-        control = request.POST.items()
-        
+        control = request.params.items()
+
         try:
             form_data = myform.validate(control)
+
         except deform.exception.ValidationFailure as e:
             return {
                 'todos': todos,
@@ -179,6 +206,26 @@ def todo_item_edit(request):
             item.completed_date = datetime.now()
         else:
             item.completed_date = None
+
+        if form_data['upload']:
+            
+            file_data = form_data['upload']
+            filepath = '/home/senank/Work/pyproj/pyproj/static/uploads/'
+            fdsa
+            
+            if item.filename:
+                try:
+                    os.remove(filepath + item.unique_filename)
+                except:
+                    pass
+                
+            with open(filepath + file_data['uid'], 'wb+') as f:
+                shutil.copyfileobj(file_data['fp'], f)
+                # BETTER THAN f.write(file_data['fp'].read())
+            item.filename = file_data['filename']
+            item.mimetype = file_data['mimetype']
+            item.unique_filename = file_data['uid']
+            
 
         request.dbsession.add(item)
         return HTTPFound(location=request.route_url('todo_list'))
