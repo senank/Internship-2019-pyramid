@@ -11,6 +11,7 @@ from .meta import Base
 
 MIMETYPE_ICONS = {
     'image/jpeg' : 'far fa-file-image',
+    'image/png' : 'far fa-file-image',
     'audio' : 'far fa-file-audio',
     'video' : 'far fa-file-video',
     'application/pdf' : 'far fa-file-pdf',
@@ -26,6 +27,7 @@ MIMETYPE_ICONS = {
     'application/vnd.oasis.opendocument.presentation' : 'far fa-file-powerpoint',
     'text/plain' : 'far fa-file-alt',
     'text/html' : 'far fa-file-code',
+    'text/css' : 'far fa-file-code',
     'application/json' : 'far fa-file-code',
     'application/gzip' : 'far fa-file-archive',
     'application/zip' : 'far fa-file-archive',

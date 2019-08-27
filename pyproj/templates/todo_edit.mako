@@ -1,16 +1,27 @@
 <%inherit file="layout.mako"/>
-<h1>Editting: ${desc}</h1>
-% if error:
-    % for key, msg in error.items():
-        <p class="alert alert-danger">
+<% filepath = 'pyproj:static/uploads/' + item.unique_filename %>
+<h1>
+    %if 'image' in item.mimetype:
+        <img src="${request.static_url(filepath)}" height = "128" width = "128">
+    %else:
+        <i class="${item.get_icon()}"></i>
+    %endif
+    ${desc} 
+</h1>
+## % if error:
+##     % for key, msg in error.items():
+##         <p class="alert alert-danger">
 ##            % if key == '_':
 ##                ${error}
 ##            % else:
-                ${msg}
+                ## ${msg}
 ##            % endif
-        </p>
-    % endfor
-% endif
+        ## </p>
+##     % endfor
+## % endif
+<p><a href="${request.static_url(filepath)}"><i class="fa fa-download"></i> ${item.filename} <i class="${item.get_icon()}"></i></a></p>
+
+
 ## <form action="${request.route_url('todo_item_edit', id=item.id)}" name="editting" id="editting" method="POST">
 ##     <div class = "form-group">
 ##         <input id="description" class = "form-control" type='text' name="description" value="${item.description}">

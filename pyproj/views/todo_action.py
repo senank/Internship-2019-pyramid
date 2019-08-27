@@ -14,6 +14,10 @@ from ..models import TodoItem
 import uuid
 from deform.interfaces import FileUploadTempStore
 
+# from PIL import Image
+# import base64
+# import StringIO
+
 import logging
 log = logging.getLogger(__name__)
 
@@ -22,6 +26,17 @@ import deform
 
 import os
 import shutil
+
+# def resize_img(img, filepath, filename):
+#     output = StringIO.StringIO()
+#     img = Image.open(filepath + filename)
+#     size = (128, 128)
+#     img = img.resize(size)
+#     img.save(output, format='PNG')
+#     output.seek(0)
+#     output_s = output.read()
+#     b64 = base64.b64encode(output_s)
+
 
 @colander.deferred
 def deferred_csrf_default(node, kw):
@@ -161,6 +176,15 @@ def todo_item_edit(request):
     myform = deform.Form(schema, buttons = ('submit', 'cancel',))
     form = myform.render()
 
+    #setting up image for page
+    filepath = os.getcwd() + '/pyproj/static/uploads/'
+    # if 'image' in item.mimetype:
+    #     img = Image.open(filepath + item.unique_filename)
+    #     size = (128, 128)
+    #     img = img.resize(size)        
+
+         
+
     if 'submit' in request.POST:
         control = request.params.items()
 
@@ -210,8 +234,7 @@ def todo_item_edit(request):
         if form_data['upload']:
             
             file_data = form_data['upload']
-            filepath = '/home/senank/Work/pyproj/pyproj/static/uploads/'
-            fdsa
+            
             
             if item.filename:
                 try:
@@ -235,11 +258,12 @@ def todo_item_edit(request):
 
    
     return {
-        'item': item,
-        'id': id_,
+        'item' : item,
+        'id' : id_,
         'todos' : todos,
         'form' : form,
-        'desc': current['description']
+        'desc' : current['description'],
+        # 'img' : img
     }
 
 

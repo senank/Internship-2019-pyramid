@@ -23,6 +23,7 @@ requires = [
     'deform',
     'bcrypt',
     'pyramid_deform',
+    'pillow',
 ]
 
 tests_require = [

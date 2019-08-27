@@ -14,9 +14,9 @@
             % endif
          >
          <% filepath = 'pyproj:static/uploads/' + item.unique_filename %>
-         <a href="${request.static_url(filepath)}"><i class="${item.get_icon()}"></i></a>
+         <a href="${request.static_url(filepath)}"><i class="${item.get_icon()}"></i>
 
-         ${item.description}
+         <span id='description_name'>${item.description}</span></a>
          % if item.completed:
              at ${item.completed_date}
          % endif
