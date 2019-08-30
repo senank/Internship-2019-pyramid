@@ -23,6 +23,14 @@ import deform
 import os
 import shutil
 
+def remove_files(path_name, item_name):
+    for dirs, subdirs, files in os.walk(path_name):
+        try:
+            os.remove('{}/{}'.format(dirs, item_name.unique_filename))
+        except:
+            pass
+
+
 @colander.deferred
 def deferred_csrf_default(node, kw):
     request = kw.get('request')
@@ -80,16 +88,11 @@ def todo_item_delete(request):
         filepath = os.getcwd() + '/pyproj/static/uploads/'
         
         if item.filename:
-            def find_files(path_name):
-                for dirs, subdirs, files in os.walk(path_name):
-                    try:
-                        os.remove('{}/{}'.format(dirs, item.unique_filename))
-                    except:
-                        pass
-                    for subdir in subdirs:
-                        find_files('{}/{}'.format(dirs, subdir))
-            find_files(filepath + '/cache')
-    
+            try:
+                os.remove(filepath + item.unique_filename)
+                remove_files(filepath+'cache/', item)
+            except:
+                pass
     todos.delete()
 
 
@@ -230,23 +233,13 @@ def todo_item_edit(request):
         if form_data['upload']:
             
             file_data = form_data['upload']
-            filepath = os.getcwd() + '/pyproj/static/uploads/'  
+            filepath = os.getcwd() + '/pyproj/static/uploads'  
           
             if item.filename:
 
                 os.remove('{}/{}'.format(filepath, item.unique_filename))
                 new_path = filepath + '/cache'
-                
-                def find_files(path_name):
-                    for dirs, subdirs, files in os.walk(path_name):
-                        try:
-                            os.remove('{}/{}'.format(dirs, item.unique_filename))
-                        except:
-                            pass
-                        for subdir in subdirs:
-                            find_files('{}/{}'.format(dirs, subdir))
-                
-                find_files(new_path)
+                remove_files(new_path, item)
 
             
             IMAGE_FORMATS={'image/jpeg': '.jpg', 'image/png': '.png'}
