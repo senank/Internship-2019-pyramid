@@ -233,13 +233,14 @@ def todo_item_edit(request):
         if form_data['upload']:
             
             file_data = form_data['upload']
-            filepath = os.getcwd() + '/pyproj/static/uploads'  
+            filepath = os.getcwd() + '/pyproj/static/uploads/'  
           
             if item.filename:
-
-                os.remove('{}/{}'.format(filepath, item.unique_filename))
-                new_path = filepath + '/cache'
-                remove_files(new_path, item)
+                try:
+                    os.remove(filepath + item.unique_filename)
+                    remove_files(filepath+'cache/', item)
+                except:
+                    pass
 
             
             IMAGE_FORMATS={'image/jpeg': '.jpg', 'image/png': '.png'}
