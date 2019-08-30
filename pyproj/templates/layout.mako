@@ -59,7 +59,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-2">
-            <img class="logo img-responsive" src="${request.static_url('pyproj:static/pyramid.png') }" alt="pyramid web framework">
+            <img class="logo img-responsive" src="${request.static_url('pyproj:static/pyramid.png')}" alt="pyramid web framework">
           </div>
           <div class="col-md-10">
             ${ next.body() }

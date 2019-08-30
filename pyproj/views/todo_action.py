@@ -14,10 +14,6 @@ from ..models import TodoItem
 import uuid
 from deform.interfaces import FileUploadTempStore
 
-# from PIL import Image
-# import base64
-# import StringIO
-
 import logging
 log = logging.getLogger(__name__)
 
@@ -27,23 +23,12 @@ import deform
 import os
 import shutil
 
-# def resize_img(img, filepath, filename):
-#     output = StringIO.StringIO()
-#     img = Image.open(filepath + filename)
-#     size = (128, 128)
-#     img = img.resize(size)
-#     img.save(output, format='PNG')
-#     output.seek(0)
-#     output_s = output.read()
-#     b64 = base64.b64encode(output_s)
-
-
 @colander.deferred
 def deferred_csrf_default(node, kw):
     request = kw.get('request')
     csrf_token = request.session.get_csrf_token()
     return csrf_token
-
+    
 @view_config(route_name='todo_item_complete', permission = 'complete')
 def todo_item_complete(request):
     
@@ -88,8 +73,16 @@ def todo_item_add(request):
 @view_config(route_name='todo_item_delete', request_method='POST', permission='delete')
 def todo_item_delete(request):
     
-    request.dbsession.query(TodoItem).filter_by(user_id = \
-        request.user.user_id).filter(TodoItem.completed == True).delete()
+    todos = request.dbsession.query(TodoItem).filter_by(user_id = \
+        request.user.user_id).filter(TodoItem.completed == True)
+    for item in todos:
+        filepath = os.getcwd() + '/pyproj/static/uploads/'     
+        if item.filename:
+            try:
+                os.remove(filepath + item.unique_filename)
+            except:
+                pass
+    todos.delete()
 
 
 
@@ -177,11 +170,7 @@ def todo_item_edit(request):
     form = myform.render()
 
     #setting up image for page
-    filepath = os.getcwd() + '/pyproj/static/uploads/'
-    # if 'image' in item.mimetype:
-    #     img = Image.open(filepath + item.unique_filename)
-    #     size = (128, 128)
-    #     img = img.resize(size)        
+    filepath = os.getcwd() + '/pyproj/static/uploads/'     
 
          
 
@@ -241,14 +230,21 @@ def todo_item_edit(request):
                     os.remove(filepath + item.unique_filename)
                 except:
                     pass
-                
+
+            
+            IMAGE_FORMATS={'image/jpeg': '.jpg', 'image/png': '.png'}
+            
+            if file_data['mimetype'] in IMAGE_FORMATS:
+                file_data['uid'] = file_data['uid'] +\
+                    IMAGE_FORMATS[file_data['mimetype']]
+
+
             with open(filepath + file_data['uid'], 'wb+') as f:
                 shutil.copyfileobj(file_data['fp'], f)
                 # BETTER THAN f.write(file_data['fp'].read())
             item.filename = file_data['filename']
             item.mimetype = file_data['mimetype']
             item.unique_filename = file_data['uid']
-            
 
         request.dbsession.add(item)
         return HTTPFound(location=request.route_url('todo_list'))

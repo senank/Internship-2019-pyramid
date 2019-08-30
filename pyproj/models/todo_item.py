@@ -7,6 +7,9 @@ from sqlalchemy import (
     DateTime,
 )
 
+from PIL import Image
+import os
+
 from .meta import Base
 
 MIMETYPE_ICONS = {
@@ -33,6 +36,11 @@ MIMETYPE_ICONS = {
     'application/zip' : 'far fa-file-archive',
 }
 
+IMAGE_FORMATS = {
+    'image/jpeg': '.jpg',
+    'image/png': '.png'
+    }
+
 
 class TodoItem(Base):
     __tablename__ = 'todo_item'
@@ -51,6 +59,40 @@ class TodoItem(Base):
     def get_icon(self):
         icon = MIMETYPE_ICONS.get(self.mimetype, 'far fa-file')
         return icon
+
+    def is_image(self):
+        if self.mimetype in IMAGE_FORMATS:
+            return True
+    
+
+    def make_thumbnail(self, target_path, width, height):
+        static_path = os.getcwd() + '/pyproj/static/uploads/'
+        img = static_path + self.unique_filename
+        target_path = os.path.join(static_path, target_path)
+        if not os.path.exists(target_path):
+            os.makedirs(target_path)
+        try:
+            width = int(width)
+            height = int(height)
+            with Image.open(img) as f:
+                w, h = f.size
+                ratio = min(width/w, height/h)
+                new_height = int(h*ratio)
+                new_width = int(w*ratio)
+                f_resized = f.resize((new_width, new_height))
+                f_resized.save(target_path+self.unique_filename)
+        except IOError as e:
+            pass
+
+    def generate_thumbnail(self, request, width, height):
+        target_path = 'cache/{0}x{1}/'.format(width, height)
+        if os.path.exists(target_path + self.unique_filename):
+            return request.static_url('pyproj:static/uploads/' + target_path + self.unique_filename)
+        else:
+            self.make_thumbnail(target_path, width, height)
+            return request.static_url('pyproj:static/uploads/' + target_path + self.unique_filename)
+
+            
 
 
 Index('todo_item_idx', TodoItem.completed.asc(), TodoItem.position.desc(), unique=False)
