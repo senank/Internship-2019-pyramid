@@ -1,0 +1,171 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+018785bd6dba_added_user_table.py	../alembic1/versions1/018785bd6dba_added_user_table.py	1;"	kind:file	line:1
+049626cf2620_added_filename.py	../alembic/versions/049626cf2620_added_filename.py	1;"	kind:file	line:1
+5012d11e936c_init.py	../alembic/versions/5012d11e936c_init.py	1;"	kind:file	line:1
+61d07a943254_initial_scheme.py	../alembic1/versions1/61d07a943254_initial_scheme.py	1;"	kind:file	line:1
+Base	../pyproj/models/meta.py	/^Base = declarative_base(metadata=metadata)$/;"	kind:variable	line:16
+BaseTest	../pyproj/tests.py	/^class BaseTest(unittest.TestCase):$/;"	kind:class	line:12
+CHANGES	../setup.py	/^    CHANGES = f.read()$/;"	kind:variable	line:9
+MIMETYPE_ICONS	../pyproj/models/todo_item.py	/^MIMETYPE_ICONS = {$/;"	kind:variable	line:15
+MemoryTmpStore	../pyproj/views/todo_action.py	/^    class MemoryTmpStore(dict):$/;"	kind:class	line:163
+MyAuthenticationPolicy	../pyproj/security.py	/^class MyAuthenticationPolicy(AuthTktAuthenticationPolicy):$/;"	kind:class	line:8
+NAMING_CONVENTION	../pyproj/models/meta.py	/^NAMING_CONVENTION = {$/;"	kind:variable	line:7
+README	../setup.py	/^    README = f.read()$/;"	kind:variable	line:7
+Root	../pyproj/resources.py	/^class Root(object):$/;"	kind:class	line:3
+TestMyViewFailureCondition	../pyproj/tests.py	/^class TestMyViewFailureCondition(BaseTest):$/;"	kind:class	line:61
+TestMyViewSuccessCondition	../pyproj/tests.py	/^class TestMyViewSuccessCondition(BaseTest):$/;"	kind:class	line:43
+TodoItem	../pyproj/models/todo_item.py	/^class TodoItem(Base):$/;"	kind:class	line:40
+User	../pyproj/models/user.py	/^class User(Base):$/;"	kind:class	line:12
+__acl__	../pyproj/resources.py	/^    __acl__ = [(Allow, 'admin', 'edit'),$/;"	kind:variable	line:4
+__init__	../pyproj/resources.py	/^    def __init__(self, request):$/;"	kind:member	line:13
+__init__.py	../pyproj/__init__.py	1;"	kind:file	line:1
+__init__.py	../pyproj/models/__init__.py	1;"	kind:file	line:1
+__init__.py	../pyproj/scripts/__init__.py	1;"	kind:file	line:1
+__init__.py	../pyproj/views/__init__.py	1;"	kind:file	line:1
+__tablename__	../pyproj/models/todo_item.py	/^    __tablename__ = 'todo_item'$/;"	kind:variable	line:41
+__tablename__	../pyproj/models/user.py	/^    __tablename__ = 'user'$/;"	kind:variable	line:13
+add_global	../pyproj/__init__.py	/^def add_global(event):$/;"	kind:function	line:8
+auth.py	../pyproj/views/auth.py	1;"	kind:file	line:1
+authenticated_userid	../pyproj/security.py	/^    def authenticated_userid(self, request):$/;"	kind:member	line:9
+author	../setup.py	/^    author='',$/;"	kind:variable	line:46
+author_email	../setup.py	/^    author_email='',$/;"	kind:variable	line:47
+branch_labels	../alembic/versions/049626cf2620_added_filename.py	/^branch_labels = None$/;"	kind:variable	line:15
+branch_labels	../alembic/versions/5012d11e936c_init.py	/^branch_labels = None$/;"	kind:variable	line:15
+branch_labels	../alembic1/versions1/018785bd6dba_added_user_table.py	/^branch_labels = None$/;"	kind:variable	line:15
+branch_labels	../alembic1/versions1/61d07a943254_initial_scheme.py	/^branch_labels = None$/;"	kind:variable	line:15
+check_password	../pyproj/security.py	/^def check_password(pw, hashed_pw):$/;"	kind:function	line:33
+classifiers	../setup.py	/^    classifiers=[$/;"	kind:variable	line:40
+completed	../pyproj/models/todo_item.py	/^    completed = Column(Boolean, nullable=False, default=False, server_default=u'false', index=True)$/;"	kind:variable	line:45
+completed_date	../pyproj/models/todo_item.py	/^    completed_date = Column(DateTime)$/;"	kind:variable	line:48
+config	../alembic/env.py	/^config = context.config$/;"	kind:variable	line:15
+config	../alembic1/env.py	/^config = context.config$/;"	kind:variable	line:15
+control	../pyproj/views/todo_action.py	/^        control = request.params.items()$/;"	kind:variable	line:190
+create	../pyproj/views/auth.py	/^def create(request):$/;"	kind:function	line:26
+create_acc	../pyproj/views/auth.py	/^def create_acc(request):$/;"	kind:function	line:33
+created_date	../pyproj/models/todo_item.py	/^    created_date = Column(DateTime, nullable=False)$/;"	kind:variable	line:47
+db_err_msg	../pyproj/views/todo_action.py	/^db_err_msg = 'Unable to process data'$/;"	kind:variable	line:277
+db_err_msg	../pyproj/views/todo_list.py	/^db_err_msg = 'Unable to load data'$/;"	kind:variable	line:93
+default.py	../pyproj/views/default.py	1;"	kind:file	line:1
+deferred_csrf_default	../pyproj/views/auth.py	/^def deferred_csrf_default(node, kw):$/;"	kind:function	line:20
+deferred_csrf_default	../pyproj/views/todo_action.py	/^def deferred_csrf_default(node, kw):$/;"	kind:function	line:42
+deferred_csrf_default	../pyproj/views/todo_list.py	/^def deferred_csrf_default(node, kw):$/;"	kind:function	line:22
+delete_user	../pyproj/views/auth.py	/^def delete_user(request):$/;"	kind:function	line:239
+depends_on	../alembic/versions/049626cf2620_added_filename.py	/^depends_on = None$/;"	kind:variable	line:16
+depends_on	../alembic/versions/5012d11e936c_init.py	/^depends_on = None$/;"	kind:variable	line:16
+depends_on	../alembic1/versions1/018785bd6dba_added_user_table.py	/^depends_on = None$/;"	kind:variable	line:16
+depends_on	../alembic1/versions1/61d07a943254_initial_scheme.py	/^depends_on = None$/;"	kind:variable	line:16
+description	../pyproj/models/todo_item.py	/^    description = Column(Text, nullable=False)$/;"	kind:variable	line:44
+description	../setup.py	/^    description='Pyramid Test Project',$/;"	kind:variable	line:38
+down_revision	../alembic/versions/049626cf2620_added_filename.py	/^down_revision = '5012d11e936c'$/;"	kind:variable	line:14
+down_revision	../alembic/versions/5012d11e936c_init.py	/^down_revision = None$/;"	kind:variable	line:14
+down_revision	../alembic1/versions1/018785bd6dba_added_user_table.py	/^down_revision = '61d07a943254'$/;"	kind:variable	line:14
+down_revision	../alembic1/versions1/61d07a943254_initial_scheme.py	/^down_revision = None$/;"	kind:variable	line:14
+downgrade	../alembic/versions/049626cf2620_added_filename.py	/^def downgrade():$/;"	kind:function	line:27
+downgrade	../alembic/versions/5012d11e936c_init.py	/^def downgrade():$/;"	kind:function	line:45
+downgrade	../alembic1/versions1/018785bd6dba_added_user_table.py	/^def downgrade():$/;"	kind:function	line:31
+downgrade	../alembic1/versions1/61d07a943254_initial_scheme.py	/^def downgrade():$/;"	kind:function	line:37
+dummy_request	../pyproj/tests.py	/^def dummy_request(dbsession):$/;"	kind:function	line:8
+edit	../pyproj/views/auth.py	/^def edit(request):$/;"	kind:function	line:101
+edit_handler	../pyproj/views/auth.py	/^def edit_handler(request):$/;"	kind:function	line:139
+entry_points	../setup.py	/^    entry_points={$/;"	kind:variable	line:57
+env.py	../alembic/env.py	1;"	kind:file	line:1
+env.py	../alembic1/env.py	1;"	kind:file	line:1
+error.py	../pyproj/views/error.py	1;"	kind:file	line:1
+extras_require	../setup.py	/^    extras_require={$/;"	kind:variable	line:53
+filename	../pyproj/models/todo_item.py	/^    filename = Column(Text)$/;"	kind:variable	line:49
+forbidden_view	../pyproj/views/error.py	/^def forbidden_view(request):$/;"	kind:function	line:11
+get_engine	../pyproj/models/__init__.py	/^def get_engine(settings, prefix='sqlalchemy.'):$/;"	kind:function	line:16
+get_icon	../pyproj/models/todo_item.py	/^    def get_icon(self):$/;"	kind:member	line:54
+get_session_factory	../pyproj/models/__init__.py	/^def get_session_factory(engine):$/;"	kind:function	line:20
+get_tm_session	../pyproj/models/__init__.py	/^def get_tm_session(session_factory, transaction_manager):$/;"	kind:function	line:26
+get_user	../pyproj/security.py	/^def get_user(request):$/;"	kind:function	line:14
+groupfinder	../pyproj/security.py	/^def groupfinder(userid, request):$/;"	kind:function	line:20
+hash_password	../pyproj/security.py	/^def hash_password(pw):$/;"	kind:function	line:29
+here	../setup.py	/^here = os.path.abspath(os.path.dirname(__file__))$/;"	kind:variable	line:5
+id	../pyproj/models/todo_item.py	/^    id = Column(Integer, primary_key=True)$/;"	kind:variable	line:42
+include_package_data	../setup.py	/^    include_package_data=True,$/;"	kind:variable	line:51
+includeme	../pyproj/models/__init__.py	/^def includeme(config):$/;"	kind:function	line:53
+includeme	../pyproj/routes.py	/^def includeme(config):$/;"	kind:function	line:1
+includeme	../pyproj/security.py	/^def includeme(config):$/;"	kind:function	line:39
+init_database	../pyproj/tests.py	/^    def init_database(self):$/;"	kind:member	line:31
+initialize_db.py	../pyproj/scripts/initialize_db.py	1;"	kind:file	line:1
+install_requires	../setup.py	/^    install_requires=requires,$/;"	kind:variable	line:56
+keywords	../setup.py	/^    keywords='web pyramid pylons',$/;"	kind:variable	line:49
+log	../pyproj/views/todo_action.py	/^log = logging.getLogger(__name__)$/;"	kind:variable	line:22
+log	../pyproj/views/todo_list.py	/^log = logging.getLogger(__name__)$/;"	kind:variable	line:19
+login	../pyproj/views/auth.py	/^def login(request):$/;"	kind:function	line:203
+login_handler	../pyproj/views/auth.py	/^def login_handler(request):$/;"	kind:function	line:210
+logout	../pyproj/views/auth.py	/^def logout(request):$/;"	kind:function	line:233
+long_description	../setup.py	/^    long_description=README + '\\n\\n' + CHANGES,$/;"	kind:variable	line:39
+main	../pyproj/__init__.py	/^def main(global_config, **settings):$/;"	kind:function	line:12
+main	../pyproj/scripts/initialize_db.py	/^def main(argv=sys.argv):$/;"	kind:function	line:35
+make_thumbnail	../pyproj/models/todo_item.py	/^    def make_thumbnail(self, target_path, width, height):$/;"	kind:member	line:58
+meta.py	../pyproj/models/meta.py	1;"	kind:file	line:1
+metadata	../pyproj/models/meta.py	/^metadata = MetaData(naming_convention=NAMING_CONVENTION)$/;"	kind:variable	line:15
+mimetype	../pyproj/models/todo_item.py	/^    mimetype = Column(Text)$/;"	kind:variable	line:51
+missing	../pyproj/views/todo_action.py	/^        missing = None$/;"	kind:variable	line:175
+my_session_factory	../pyproj/security.py	/^my_session_factory = SignedCookieSessionFactory('itsaseekreet')$/;"	kind:variable	line:37
+my_view	../pyproj/views/default.py	/^def my_view(request):$/;"	kind:function	line:10
+name	../pyproj/views/todo_action.py	/^        name = 'upload',$/;"	kind:variable	line:174
+name	../setup.py	/^    name='pyproj',$/;"	kind:variable	line:36
+notfound_view	../pyproj/views/error.py	/^def notfound_view(request):$/;"	kind:function	line:6
+packages	../setup.py	/^    packages=find_packages(),$/;"	kind:variable	line:50
+parse_args	../pyproj/scripts/initialize_db.py	/^def parse_args(argv):$/;"	kind:function	line:26
+password	../pyproj/models/user.py	/^    password = Column(Text, nullable = False)$/;"	kind:variable	line:16
+permissions	../pyproj/models/user.py	/^    permissions = Column(Text, nullable = True)/;"	kind:variable	line:17
+position	../pyproj/models/todo_item.py	/^    position = Column(Integer, nullable=False, index=True)$/;"	kind:variable	line:46
+preview_url	../pyproj/views/todo_action.py	/^        def preview_url(self, uid):$/;"	kind:member	line:167
+pshell.py	../pyproj/pshell.py	1;"	kind:file	line:1
+requires	../setup.py	/^requires = [$/;"	kind:variable	line:11
+resize_img	../pyproj/views/todo_action.py	/^def resize_img(image: str, size: tuple):$/;"	kind:function	line:47
+resources.py	../pyproj/resources.py	1;"	kind:file	line:1
+revision	../alembic/versions/049626cf2620_added_filename.py	/^revision = '049626cf2620'$/;"	kind:variable	line:13
+revision	../alembic/versions/5012d11e936c_init.py	/^revision = '5012d11e936c'$/;"	kind:variable	line:13
+revision	../alembic1/versions1/018785bd6dba_added_user_table.py	/^revision = '018785bd6dba'$/;"	kind:variable	line:13
+revision	../alembic1/versions1/61d07a943254_initial_scheme.py	/^revision = '61d07a943254'$/;"	kind:variable	line:13
+routes.py	../pyproj/routes.py	1;"	kind:file	line:1
+run_migrations_offline	../alembic/env.py	/^def run_migrations_offline():$/;"	kind:function	line:33
+run_migrations_offline	../alembic1/env.py	/^def run_migrations_offline():$/;"	kind:function	line:33
+run_migrations_online	../alembic/env.py	/^def run_migrations_online():$/;"	kind:function	line:54
+run_migrations_online	../alembic1/env.py	/^def run_migrations_online():$/;"	kind:function	line:54
+security.py	../pyproj/security.py	1;"	kind:file	line:1
+setUp	../pyproj/tests.py	/^    def setUp(self):$/;"	kind:member	line:13
+setUp	../pyproj/tests.py	/^    def setUp(self):$/;"	kind:member	line:45
+setup	../pyproj/pshell.py	/^def setup(env):$/;"	kind:function	line:4
+setup.py	../setup.py	1;"	kind:file	line:1
+setup_models	../pyproj/scripts/initialize_db.py	/^def setup_models(dbsession):$/;"	kind:function	line:12
+shift	../pyproj/views/todo_action.py	/^        shift = item.position - (form_data['position']-1)        $/;"	kind:variable	line:207
+target_metadata	../alembic/env.py	/^target_metadata = Base.metadata$/;"	kind:variable	line:25
+target_metadata	../alembic1/env.py	/^target_metadata = Base.metadata$/;"	kind:variable	line:25
+tearDown	../pyproj/tests.py	/^    def tearDown(self):$/;"	kind:member	line:35
+test_failing_view	../pyproj/tests.py	/^    def test_failing_view(self):$/;"	kind:member	line:63
+test_passing_view	../pyproj/tests.py	/^    def test_passing_view(self):$/;"	kind:member	line:54
+tests.py	../pyproj/tests.py	1;"	kind:file	line:1
+tests_require	../setup.py	/^tests_require = [$/;"	kind:variable	line:29
+todo_action.py	../pyproj/views/todo_action.py	1;"	kind:file	line:1
+todo_item.py	../pyproj/models/todo_item.py	1;"	kind:file	line:1
+todo_item_add	../pyproj/views/todo_action.py	/^def todo_item_add(request):$/;"	kind:function	line:77
+todo_item_complete	../pyproj/views/todo_action.py	/^def todo_item_complete(request):$/;"	kind:function	line:53
+todo_item_delete	../pyproj/views/todo_action.py	/^def todo_item_delete(request):$/;"	kind:function	line:94
+todo_item_drag	../pyproj/views/todo_action.py	/^def todo_item_drag(request):$/;"	kind:function	line:280
+todo_item_edit	../pyproj/views/todo_action.py	/^def todo_item_edit(request):$/;"	kind:function	line:102
+todo_list	../pyproj/views/todo_list.py	/^def todo_list(request):$/;"	kind:function	line:28
+todo_list.py	../pyproj/views/todo_list.py	1;"	kind:file	line:1
+unique_filename	../pyproj/models/todo_item.py	/^    unique_filename = Column(Text)$/;"	kind:variable	line:50
+upgrade	../alembic/versions/049626cf2620_added_filename.py	/^def upgrade():$/;"	kind:function	line:19
+upgrade	../alembic/versions/5012d11e936c_init.py	/^def upgrade():$/;"	kind:function	line:19
+upgrade	../alembic1/versions1/018785bd6dba_added_user_table.py	/^def upgrade():$/;"	kind:function	line:19
+upgrade	../alembic1/versions1/61d07a943254_initial_scheme.py	/^def upgrade():$/;"	kind:function	line:19
+url	../setup.py	/^    url='',$/;"	kind:variable	line:48
+user.py	../pyproj/models/user.py	1;"	kind:file	line:1
+user_id	../pyproj/models/todo_item.py	/^    user_id = Column(Integer, nullable=False)$/;"	kind:variable	line:43
+user_id	../pyproj/models/user.py	/^    user_id = Column(Integer, primary_key=True)$/;"	kind:variable	line:14
+username	../pyproj/models/user.py	/^    username = Column(Text, nullable = False, unique=True)$/;"	kind:variable	line:15
+version	../setup.py	/^    version='0.0',$/;"	kind:variable	line:37
+widget	../pyproj/views/todo_action.py	/^        widget = deform.widget.FileUploadWidget(tmpstore),$/;"	kind:variable	line:173
+zip_safe	../setup.py	/^    zip_safe=False,$/;"	kind:variable	line:52

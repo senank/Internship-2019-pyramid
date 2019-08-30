@@ -12,6 +12,16 @@ from ..security import check_password, hash_password
 from ..models import User
 from ..models import TodoItem
 
+import colander
+import deform
+
+
+@colander.deferred
+def deferred_csrf_default(node, kw):
+    request = kw.get('request')
+    csrf_token = request.session.get_csrf_token()
+    return csrf_token
+
 @view_config(route_name='create', renderer='../templates/create_acc.mako', request_method='GET', require_csrf=False)
 def create(request):
     return {
@@ -72,6 +82,8 @@ def create_acc(request):
 
         new_user.permissions = 'admin'
 
+        # new_user.picture = 'avatar.png'
+
         request.dbsession.add(new_user)
         request.dbsession.flush()
         headers = remember(request, new_user.user_id)
@@ -87,9 +99,39 @@ def create_acc(request):
 @view_config(route_name='edit_user', renderer = "../templates/edit_user.mako",\
      request_method='GET', permission = 'logged')
 def edit(request):
+    
+    # id_ = request.user.user_id
+    # user = request.dbsession.query(User).filter_by(user_id = id_).first()
+
+    # schema = colander.SchemaNode(colander.Mapping(), 
+    #     colander.SchemaNode(colander.String(), 
+    #     name = 'csrf_token',
+    #     default=deferred_csrf_default,
+    #     widget=deform.widget.HiddenWidget(),
+    #     ).bind(request=request))
+
+    # class MemoryTmpStore(dict):
+    #     """ Instances of this class implement the
+    #     :class:`deform.interfaces.FileUploadTempStore` interface"""
+
+    #     def preview_url(self, uid):
+    #         return None
+    
+    # tmpstore = MemoryTmpStore()        
+    # schema.add(colander.SchemaNode(
+    #     deform.FileData(),
+    #     widget = deform.widget.FileUploadWidget(tmpstore),
+    #     name = 'upload profile picture',
+    #     missing = None
+    #     ))
+
+    # myform = deform.Form(schema, buttons = ('set',))
+    # form = myform.render()
+    
     return {
         'project': 'To-Do',
-        'page_title': 'Edit'
+        'page_title': 'Edit',
+        # 'form' : form
     }
 
 

@@ -1,7 +1,7 @@
 <%inherit file="layout.mako"/>
 
 <div class="content">
-    <h1>Edit ${request.user.username.capitalize()}</h1>
+    <h1>${request.user.username.capitalize()}</h1>
     %if error:
         %for key, msg in error.items():
             <p class="alert alert-danger">
@@ -9,6 +9,10 @@
             </p>
         %endfor
     %endif
+
+    ## ${form | n}
+
+    <h2> Edit Profile </h2>
     <div class="form-group">
         <form action = "${request.route_url('edit_user')}" method = "POST" class = "inline-block" \
         onsubmit = "return confirm('Are you sure you want to update?\n\nIf field is left empty, there will be no changes made to that field')">
