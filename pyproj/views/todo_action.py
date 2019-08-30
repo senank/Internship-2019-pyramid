@@ -76,6 +76,7 @@ def todo_item_delete(request):
     todos = request.dbsession.query(TodoItem).filter_by(user_id = \
         request.user.user_id).filter(TodoItem.completed == True)
     for item in todos:
+        
         filepath = os.getcwd() + '/pyproj/static/uploads/'
         
         if item.filename:
@@ -85,10 +86,10 @@ def todo_item_delete(request):
                         os.remove('{}/{}'.format(dirs, item.unique_filename))
                     except:
                         pass
-                    if subdirs:
-                        for subdir in subdirs:
-                            find_files('{}/{}'.format(dirs, subdir))
-            find_files(filepath)
+                    for subdir in subdirs:
+                        find_files('{}/{}'.format(dirs, subdir))
+            find_files(filepath + '/cache')
+    
     todos.delete()
 
 
@@ -176,8 +177,7 @@ def todo_item_edit(request):
     myform = deform.Form(schema, buttons = ('submit', 'cancel',))
     form = myform.render()
 
-    #setting up image for page
-    filepath = os.getcwd() + '/pyproj/static/uploads/'     
+         
 
          
 
@@ -230,19 +230,23 @@ def todo_item_edit(request):
         if form_data['upload']:
             
             file_data = form_data['upload']
-            
-            
+            filepath = os.getcwd() + '/pyproj/static/uploads/'  
+          
             if item.filename:
+
+                os.remove('{}/{}'.format(filepath, item.unique_filename))
+                new_path = filepath + '/cache'
+                
                 def find_files(path_name):
                     for dirs, subdirs, files in os.walk(path_name):
                         try:
                             os.remove('{}/{}'.format(dirs, item.unique_filename))
                         except:
                             pass
-                        if subdirs:
-                            for subdir in subdirs:
-                                find_files('{}/{}'.format(dirs, subdir))
-                find_files(filepath)
+                        for subdir in subdirs:
+                            find_files('{}/{}'.format(dirs, subdir))
+                
+                find_files(new_path)
 
             
             IMAGE_FORMATS={'image/jpeg': '.jpg', 'image/png': '.png'}
